@@ -212,9 +212,10 @@
         checkLoginStatus();
 
         function checkLoginStatus() {
-            const isLoggedIn = getCookie('memberLoggedIn');
+            const memberLoggedIn = getCookie('memberLoggedIn');
+            const adminLoggedIn = getCookie('adminLoggedIn');
 
-            if (isLoggedIn === 'true') {
+            if (memberLoggedIn === 'true' || adminLoggedIn === 'true') {
                 // 用戶已登入
                 document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'block';
