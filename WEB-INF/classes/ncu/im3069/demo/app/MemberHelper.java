@@ -148,15 +148,15 @@ public class MemberHelper {
                 row += 1;
                 
                 /** 將 ResultSet 之資料取出 */
-                int member_id = rs.getInt("member_id");
-                String member_name = rs.getString("member_name");
-                String member_account = rs.getString("member_account");
-                String hash_pwd = rs.getString("hash_pwd");
-                int is_admin = rs.getInt("is_admin");
-
+                int member_id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                int login_times = rs.getInt("login_times");
+                String status = rs.getString("status");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, member_account, hash_pwd,  member_name, is_admin);
+                m = new Member(member_id, email, password, name, login_times, status);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -231,15 +231,14 @@ public class MemberHelper {
                 
                 /** 將 ResultSet 之資料取出 */
                 int member_id = rs.getInt("id");
-                String member_name = rs.getString("member_name");
-                String member_account = rs.getString("member_account");
-                String hash_pwd = rs.getString("hash_pwd");
-
-                int is_admin = rs.getInt("is_admin");
-               
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                int login_times = rs.getInt("login_times");
+                String status = rs.getString("status");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, member_account, hash_pwd, member_name, is_admin);
+                m = new Member(member_id, email, password, name, login_times, status);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -335,14 +334,14 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT count(*) FROM `missa`.`members` WHERE `member_account` = ?";
+            String sql = "SELECT count(*) FROM `missa`.`members` WHERE `email` = ?";
             
             /** 取得所需之參數 */
-            String member_account = m.getEmail();
+            String email = m.getEmail();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, member_account);
+            pres.setString(1, email);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
 
@@ -387,22 +386,25 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `missa`.`members`(`member_name`, `member_account`, `hash_pwd`, `modified`, `created`, `login_times`, `status`)"
+            String sql = "INSERT INTO `missa`.`members`(`name`, `email`, `password`, `modified`, `created`, `login_times`, `status`)"
                     + " VALUES(?, ?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
-            String member_name = m.getName();
-            String member_account = m.getEmail();
-            String hash_pwd = m.getPassword();
-
+            String name = m.getName();
+            String email = m.getEmail();
+            String password = m.getPassword();
+            int login_times = m.getLoginTimes();
+            String status = m.getStatus();
+            
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, member_name);
-            pres.setString(2, member_account);
-            pres.setString(3, hash_pwd);
+            pres.setString(1, name);
+            pres.setString(2, email);
+            pres.setString(3, password);
             pres.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             pres.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-           
+            pres.setInt(6, login_times);
+            pres.setString(7, status);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -456,18 +458,18 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `missa`.`members` SET `member_name` = ? ,`hash_pwd` = ? , `modified` = ? WHERE `member_account` = ?";
+            String sql = "Update `missa`.`members` SET `name` = ? ,`password` = ? , `modified` = ? WHERE `email` = ?";
             /** 取得所需之參數 */
-            String member_name = m.getName();
-            String member_account = m.getEmail();
-            String hash_pwd = m.getPassword();
+            String name = m.getName();
+            String email = m.getEmail();
+            String password = m.getPassword();
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, member_name);
-            pres.setString(2, hash_pwd);
+            pres.setString(1, name);
+            pres.setString(2, password);
             pres.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            pres.setString(4, member_account);
+            pres.setString(4, email);
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
 
@@ -501,8 +503,49 @@ public class MemberHelper {
         return response;
     }
     
+    /**
+     * 更新會員更新資料之分鐘數
+     *
+     * @param m 一名會員之Member物件
+     */
+    public void updateLoginTimes(Member m) {
+        /** 更新時間之分鐘數 */
+        int new_times = m.getLoginTimes();
+        
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `missa`.`members` SET `login_times` = ? WHERE `id` = ?";
+            /** 取得會員編號 */
+            int id = m.getID();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, new_times);
+            pres.setInt(2, id);
+            /** 執行更新之SQL指令 */
+            pres.executeUpdate();
 
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
 
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+    }
+    
     /**
      * 更新會員之會員組別
      *
@@ -543,78 +586,4 @@ public class MemberHelper {
         }
     }
 
-    public JSONObject getbymail(String search_mail, String search_password) {
-    	/**建立一個Member物件*/
-    	Member m = null;
-    	/**儲存回傳資料*/
-    	JSONArray jsa = new JSONArray();
-    	/** 記錄實際執行之SQL指令 */
-        String exexcute_sql = "";
-        /** 紀錄程式開始執行時間 */
-        long start_time = System.nanoTime();
-        /** 紀錄SQL總行數 */
-        int row = 0;
-        /** 儲存JDBC檢索資料庫後回傳之結果*/
-        ResultSet rs = null;
-        
-        try {
-            /** 取得資料庫之連線 */
-            conn = DBMgr.getConnection();
-            /** SQL指令 */
-            String sql = "SELECT * FROM `mydb`.`member` WHERE `member_account` = ? AND `hash_pwd` = ? LIMIT 1";
-            
-            /** 參數回填至SQL指令 */
-            pres = conn.prepareStatement(sql);
-            pres.setString(1, search_mail);
-            pres.setString(2, search_password);
-            /** 執行查詢之SQL指令並記錄其回傳之資料 */
-            rs = pres.executeQuery();
-            
-            /** 紀錄真實執行的SQL指令，並印出 **/
-            exexcute_sql = pres.toString();
-            System.out.println(exexcute_sql);
-            
-            /**取出rs裡的資料*/
-            int member_id = rs.getInt("id");
-            String member_name = rs.getString("member_name");
-            String member_account = rs.getString("member_account");
-            String hash_pwd = rs.getString("hash_pwd");
-            int is_admin = rs.getInt("is_admin");
-           
-            
-            /** 會員資料產生一新Member物件 */
-            m = new Member(member_id, member_account, hash_pwd, member_name, is_admin);
-            /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
-            jsa.put(m.getData());
-        }catch (SQLException e) {
-        	
-            /** 印出JDBC SQL指令錯誤 **/
-            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-        	
-            /** 若錯誤則印出錯誤訊息 */
-            e.printStackTrace();
-        } finally {
-        	
-            /** 關閉連線並釋放所有資料庫相關之資源 **/
-            DBMgr.close(rs, pres, conn);
-        }
-        /** 紀錄程式結束執行時間 */
-        long end_time = System.nanoTime();
-        /** 紀錄程式執行時間 */
-        long duration = (end_time - start_time);
-        
-        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
-        JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("row", row);
-        response.put("time", duration);
-        response.put("data", jsa);
-
-        return response;
-        
-    }
-    
-    
 }
-
