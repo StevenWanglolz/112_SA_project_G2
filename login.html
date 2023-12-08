@@ -87,12 +87,12 @@
                 alert('Login successful as an admin!');
                 // 登入成功，將管理員登入狀態存儲到 Cookie 中
                 setCookie('adminLoggedIn', 'true');
-                window.location.href = 'index.html';
+                window.location.href = '/NCU_MIS_SA/index.html';
             } else if (username === 'test' && password === '123' && !adminCheck) { // member login
                 alert('Login successful!');
                 // 登入成功，將會員登入狀態存儲到 Cookie 中
                 setCookie('memberLoggedIn', 'true');
-                window.location.href = "/index.html";
+                window.location.href = "/NCU_MIS_SA/index.html";
             } else {
                 alert('Login failed. Please check your username and password.'); 
             }
