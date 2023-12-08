@@ -35,6 +35,8 @@ public class Member {
     /** status，會員之組別 */
     private String status;
     
+    private String role;
+    
     /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
     private MemberHelper mh =  MemberHelper.getHelper();
     
@@ -84,12 +86,13 @@ public class Member {
      * @param login_times 更新時間的分鐘數
      * @param status the 會員之組別
      */
-    public Member(int id, String email, String password, String name, int login_times, String status) {
+    public Member(int id, String email, String password, String name, int login_times,String role, String status) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.login_times = login_times;
+        this.role = role;
         this.status = status;
     }
     

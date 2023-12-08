@@ -153,10 +153,11 @@ public class MemberHelper {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 int login_times = rs.getInt("login_times");
+                String role = rs.getString("role");
                 String status = rs.getString("status");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, password, name, login_times, status);
+                m = new Member(member_id, email, password, name, login_times,role, status);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -235,10 +236,11 @@ public class MemberHelper {
                 String email = rs.getString("email");
                 String password = rs.getString("password");
                 int login_times = rs.getInt("login_times");
+                String role = rs.getString("role");
                 String status = rs.getString("status");
                 
                 /** 將每一筆會員資料產生一名新Member物件 */
-                m = new Member(member_id, email, password, name, login_times, status);
+                m = new Member(member_id, email, password, name, login_times,role, status);
                 /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
                 jsa.put(m.getData());
             }
@@ -586,4 +588,79 @@ public class MemberHelper {
         }
     }
 
+    public JSONObject getbymail(String search_mail, String search_password) {
+    	/**建立一個Member物件*/
+    	Member m = null;
+    	/**儲存回傳資料*/
+    	JSONArray jsa = new JSONArray();
+    	/** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        /** 儲存JDBC檢索資料庫後回傳之結果*/
+        ResultSet rs = null;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `missa`.`members` WHERE `email` = ? AND `password` = ? LIMIT 1";
+            
+            /** 參數回填至SQL指令 */
+            pres = conn.prepareStatement(sql);
+            pres.setString(1, search_mail);
+            pres.setString(2, search_password);
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+            
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+            
+            /**取出rs裡的資料*/
+            int member_id = rs.getInt("id");
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            String password = rs.getString("password");
+            int login_times = rs.getInt("login_times");
+            String role = rs.getString("role");
+            String status = rs.getString("status");
+            
+            /** 會員資料產生一新Member物件 */
+            m = new Member(member_id, email, password, name, login_times,role, status);
+            /** 取出該名會員之資料並封裝至 JSONsonArray 內 */
+            jsa.put(m.getData());
+        }catch (SQLException e) {
+        	
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+        	
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+        	
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("time", duration);
+        response.put("data", jsa);
+
+        return response;
+        
+    }
+    
+    
 }
+
