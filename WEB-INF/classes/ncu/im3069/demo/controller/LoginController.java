@@ -55,10 +55,10 @@ public class LoginController extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
 		if(session != null) {
-			String Session_id = (String)session.getAttribute("id");
+			String Session_id = (String)session.getAttribute("member_id");
 			String Session_name = (String)session.getAttribute("name");
 			if(Session_name != "") {
-				jsob.put("id", Session_id);
+				jsob.put("member_id", Session_id);
 				jsob.put("name", Session_name);
 				jsob.put("status", "Login");
 				
@@ -88,17 +88,17 @@ public class LoginController extends HttpServlet {
 		JsonReader jsr = new JsonReader(request);
 		JSONObject jsob = jsr.getObject();
 		
-		String mail = jsob.getString("mail");
-		String password = jsob.getString("password");
+		String member_account = jsob.getString("member_account");
+		String hash_pwd = jsob.getString("hash_pwd");
 		
-		if(mail == null) {
-			mail = "";
+		if(member_account == null) {
+			member_account = "";
 		}
-		if(password == null) {
-			password = "";
+		if(hash_pwd == null) {
+			hash_pwd = "";
 		}
 		
-		JSONObject rs = mh.getByEmail(mail, password);
+		JSONObject rs = mh.getByEmail(member_account, hash_pwd);
 		JSONObject rsp = new JSONObject();
 		
 		System.out.println(rs.get("data"));
@@ -107,7 +107,7 @@ public class LoginController extends HttpServlet {
 			System.out.println("登入成功!");
 			
 			System.out.println(rs.getJSONArray("data").get(0));
-			String id=((JSONObject) rs.getJSONArray("data").get(0)).get("id").toString();
+			String member_id=((JSONObject) rs.getJSONArray("data").get(0)).get("member_id").toString();
     		String name=((JSONObject) rs.getJSONArray("data").get(0)).get("name").toString();
     		String role=((JSONObject) rs.getJSONArray("data").get(0)).get("role").toString();
     		
@@ -115,9 +115,9 @@ public class LoginController extends HttpServlet {
     		System.out.println(role);
     		
     		HttpSession session_1 = request.getSession();
-    		session_1.setAttribute("id", id);
+    		session_1.setAttribute("member_id", member_id);
             session_1.setAttribute("name", name);
-            session_1.setAttribute("email", mail);
+            session_1.setAttribute("member_account", member_account);
             session_1.setAttribute("role", role);
             rsp.put("response", rs);
 		}else {
@@ -127,12 +127,12 @@ public class LoginController extends HttpServlet {
 		
 		HttpSession session = request.getSession(false);
         if (session != null) {
-            String Session_id = (String) session.getAttribute("id");
+            String Session_id = (String) session.getAttribute("member_id");
             String Session_name = (String) session.getAttribute("name");
-            String Session_email = (String) session.getAttribute("email");
+            String Session_email = (String) session.getAttribute("member_account");
             String Session_role = (String) session.getAttribute("role");
 	        rsp.put("message", "登入成功！");
-            System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ role:"+Session_role+", email:"+Session_email);
+            System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ role:"+Session_role+", member_account:"+Session_email);
         } else {
             System.out.print("請登入系統！");
             //request.getRequestDispatcher("login.html").include(request, response);
