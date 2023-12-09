@@ -128,17 +128,17 @@
             const memberLoggedIn = getCookie('memberLoggedIn');
             const adminLoggedIn = getCookie('adminLoggedIn');
 
-            if (memberLoggedIn === 'true' || adminLoggedIn === 'true') {
-                // 用戶已登入
+            if(adminLoggedIn === 'true'){ 
+                // 管理員身份
                 document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('admin_page').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'block';
-                if(adminLoggedIn === 'true'){
-                    document.getElementById('admin_page').style.display = 'block';
-                }
             } else {
-                // 用戶未登入
+                // 非管理員身份
                 document.getElementById('loginBtn').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'none';
+                alert('沒有權限');
+                window.location.href = "/NCU_MIS_SA/index.html";
             }
         }
 
