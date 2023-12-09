@@ -19,3 +19,21 @@ function getCookie(name) {
     }
     return '';
 }
+
+// 删除 Cookie 
+function deleteCookie(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
+}
+
+// 登出
+function logout() {
+    // 刪除儲存的登入狀態 Cookie
+    deleteCookie('adminLoggedIn');
+    deleteCookie('memberLoggedIn');
+    deleteCookie('memberId');
+
+    window.alert('登出成功！');
+
+    // 刷新頁面
+    location.reload();
+}

@@ -15,24 +15,24 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">學生資源分享站</a>
+            <a class="navbar-brand" href="index.html">學生資源分享站</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item text-center">
+                    <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="index.html">
                             <i class="bi bi-house-door"></i> 主頁
                         </a>
                     </li>
-                    <li class="nav-item text-center">
+                    <li class="nav-item">
                         <a class="nav-link" href="#">
                           <i class="bi bi-chat"></i> 通知欄
                         </a>
                     </li>
-                    <li class="nav-item text-center">
-                        <a class="nav-link" aria-current="page" href="test.html">
+                    <li class="nav-item">
+                        <a class="nav-link" id="admin_page" href="test.html" style="display: none;">
                             <i class="bi bi-database"></i> 連線測試
                         </a>
                     </li>
@@ -42,8 +42,13 @@
                     <button class="btn btn-success me-3" type="submit"><i class="bi bi-search"></i></button>
                 </form>
                 <div class="text-center">
-                    <a type="button" class="btn btn-outline-primary my-2 me-2" href="login.html">
-                      <i class="bi bi-person-circle"></i> 登入
+                    <a type="button" id="loginBtn" class="btn btn-outline-primary my-2 me-2" href="login.html">
+                        <i class="bi bi-person-circle"></i> 登入
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a type="button" id="logoutBtn" class="btn btn-outline-danger my-2 me-2 text-right" onclick="logout()" style="display: none;">
+                        <i class="bi bi-person-circle"></i> 登出
                     </a>
                 </div>
             </div>
@@ -117,6 +122,26 @@
     </div>
 
     <script>
+        checkLoginStatus();
+
+        function checkLoginStatus() {
+            const memberLoggedIn = getCookie('memberLoggedIn');
+            const adminLoggedIn = getCookie('adminLoggedIn');
+
+            if (memberLoggedIn === 'true' || adminLoggedIn === 'true') {
+                // 用戶已登入
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+                if(adminLoggedIn === 'true'){
+                    document.getElementById('admin_page').style.display = 'block';
+                }
+            } else {
+                // 用戶未登入
+                document.getElementById('loginBtn').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'none';
+            }
+        }
+
         function getAllMember() {
             // 發出POST的GET請求取得所有會員列表
             $.ajax({
@@ -181,28 +206,26 @@
                 timeout: 5000,
                 success: function (response) {
                     if(response.status == 200){
-                        alert('Login successful!');
-                        updateSQLTable(response.response);
+                        getMessage(response.response.data);
                     }
                 },
                 error: function () {
                     alert("無法連線到伺服器！");
                 }
             });
+        }
 
-            // if (username === 'admin' && password === '123' && adminCheck) { // admin login
-            //     alert('Login successful as an admin!');
-            //     // 登入成功，將管理員登入狀態存儲到 Cookie 中
-            //     setCookie('adminLoggedIn', 'true');
-            //     window.location.href = '/NCU_MIS_SA/index.html';
-            // } else if (username === 'test' && password === '123' && !adminCheck) { // member login
-            //     alert('Login successful!');
-            //     // 登入成功，將會員登入狀態存儲到 Cookie 中
-            //     setCookie('memberLoggedIn', 'true');
-            //     window.location.href = "/NCU_MIS_SA/index.html";
-            // } else {
-            //     alert('Login failed. Please check your username and password.'); 
-            // }
+        function getMessage(data) {
+            var message = '';
+            $.each(data, function(index, value) {
+                message += 'member_id: ' + value['member_id'] + "\n";
+                message += 'is_admin: ' + value['is_admin'] + "\n";
+                message += 'hash_pwd: ' + value['hash_pwd'] + "\n";
+                message += 'member_name: ' + value['member_name'] + "\n";
+                message += 'member_account: ' + value['member_account'] + "\n";
+                message += "login success";
+            })
+            alert(message);
         }
     </script>
 </body>
