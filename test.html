@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入</title>
+
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="statics/icons/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="statics/js/bootstrap.bundle.min.js"></script>
+    <script src="statics/js/hugo.js"></script>
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">學生資源分享站</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item text-center">
+                        <a class="nav-link" aria-current="page" href="index.html">
+                            <i class="bi bi-house-door"></i> 主頁
+                        </a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" href="#">
+                          <i class="bi bi-chat"></i> 通知欄
+                        </a>
+                    </li>
+                    <li class="nav-item text-center">
+                        <a class="nav-link" aria-current="page" href="test.html">
+                            <i class="bi bi-database"></i> 連線測試
+                        </a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success me-3" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+                <div class="text-center">
+                    <a type="button" class="btn btn-outline-primary my-2 me-2" href="login.html">
+                      <i class="bi bi-person-circle"></i> 登入
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <center>
+        <table id="table" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>姓名</th>
+                    <th>帳號</th>
+                    <th>salt</th>
+                    <th>密碼</th>
+                    <th>自介</th>
+                    <th>管理員身份</th>
+                    <th>大頭照連結</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                    <th>test</th>
+                </tr>
+            </tbody>
+        </table>
+        <hr class="my-4">
+        <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">取得所有會員資料</button>
+    </center>
+
+    <script>
+        function getAllMember() {
+            // 發出POST的GET請求取得所有會員列表
+            $.ajax({
+                type: "GET",
+                url: "api/member.do",
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    alert("成功連線到伺服器！");
+                    if(response.status == 200){
+                        updateTable(response.response.data);
+                        // updateSQLTable(response.response);
+                    }
+                    console.log(response);
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+        }
+
+        function updateTable(data) {
+            $("#table > tbody").empty();
+            var table_html = '';
+            $.each(data, function(index, value) {
+                table_html += '<tr><td scope="row">' + value['member_id'] + '</td>';
+                table_html += '<td>' + value['member_name'] + '</td>';
+                table_html += '<td>' + value['member_account'] + '</td>';
+                table_html += '<td>' + value['salt'] + '</td>';
+                table_html += '<td>' + value['hash_pwd'] + '</td>';
+                table_html += '<td>' + value['member_bio'] + '</td>';
+                table_html += '<td>' + value['is_admin'] + '</td>';
+                table_html += '<td>' + value['member_img_path'] + '</td>';
+                // table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a> | ';
+                // table_html += '<a href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
+            })
+
+            $("#table > tbody").append(table_html);
+        }
+    </script>
+</body>
+</html>
