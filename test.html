@@ -51,6 +51,9 @@
     </nav>
     
     <center>
+        <br>
+        <h5 class="fs-4">會員資料連接測試</h5>
+        <br>
         <table id="table" class="table table-striped">
             <thead>
                 <tr>
@@ -77,9 +80,41 @@
                 </tr>
             </tbody>
         </table>
-        <hr class="my-4">
         <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">取得所有會員資料</button>
+        <hr class="my-4">
+        <h5 class="fs-4">登入測試</h5>
+        <div id="flashMessage" class="message" style="display: none;"></div>
     </center>
+            
+    <!-- login form -->
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5"> 
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">共創學習之道</h1>
+                <p class="col-lg-10 fs-4">這個平台旨在為學生提供一個豐富、開放的學習環境，讓你能夠在學術領域中更上一層樓，一同探索學習的無限可能</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+                <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="username" placeholder="name@example.com">
+                        <label for="username">帳號</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                        <label for="password">密碼</label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="adminCheck">
+                        <label class="form-check-label" for="adminCheck">以管理員身份</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="button" onclick="login()">登入</button>
+                    <hr class="my-4">
+                    <small class="text-body-secondary">沒有帳號？</small>
+                    <button class="w-100 py-2 my-1 btn btn-outline-secondary rounded-3" type="button">註冊帳號</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
         function getAllMember() {
@@ -122,6 +157,52 @@
             })
 
             $("#table > tbody").append(table_html);
+        }
+
+        function login(){
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var adminCheck = document.getElementById('adminCheck').checked;
+
+            var data_object = {
+                "member_account": username,
+                "hash_pwd": password
+            };
+
+            var data_string = JSON.stringify(data_object);
+
+            $.ajax({
+                type: "POST",
+                url: "api/login.do",
+                data: data_string,
+                crossDomain: true,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if(response.status == 200){
+                        alert('Login successful!');
+                        updateSQLTable(response.response);
+                    }
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+
+            // if (username === 'admin' && password === '123' && adminCheck) { // admin login
+            //     alert('Login successful as an admin!');
+            //     // 登入成功，將管理員登入狀態存儲到 Cookie 中
+            //     setCookie('adminLoggedIn', 'true');
+            //     window.location.href = '/NCU_MIS_SA/index.html';
+            // } else if (username === 'test' && password === '123' && !adminCheck) { // member login
+            //     alert('Login successful!');
+            //     // 登入成功，將會員登入狀態存儲到 Cookie 中
+            //     setCookie('memberLoggedIn', 'true');
+            //     window.location.href = "/NCU_MIS_SA/index.html";
+            // } else {
+            //     alert('Login failed. Please check your username and password.'); 
+            // }
         }
     </script>
 </body>
