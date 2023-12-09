@@ -56,10 +56,10 @@ public class LoginController extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if(session != null) {
 			String Session_id = (String)session.getAttribute("member_id");
-			String Session_name = (String)session.getAttribute("name");
+			String Session_name = (String)session.getAttribute("member_name");
 			if(Session_name != "") {
 				jsob.put("member_id", Session_id);
-				jsob.put("name", Session_name);
+				jsob.put("member_name", Session_name);
 				jsob.put("status", "Login");
 				
 			}else {
@@ -108,17 +108,17 @@ public class LoginController extends HttpServlet {
 			
 			System.out.println(rs.getJSONArray("data").get(0));
 			String member_id=((JSONObject) rs.getJSONArray("data").get(0)).get("member_id").toString();
-    		String name=((JSONObject) rs.getJSONArray("data").get(0)).get("name").toString();
-    		String role=((JSONObject) rs.getJSONArray("data").get(0)).get("role").toString();
+    		String member_name=((JSONObject) rs.getJSONArray("data").get(0)).get("member_name").toString();
+    		int is_admin=(int)((JSONObject) rs.getJSONArray("data").get(0)).get("is_admin");
     		
-    		System.out.println(name);
-    		System.out.println(role);
+    		System.out.println(member_name);
+    		System.out.println(is_admin);
     		
     		HttpSession session_1 = request.getSession();
     		session_1.setAttribute("member_id", member_id);
-            session_1.setAttribute("name", name);
+            session_1.setAttribute("member_name", member_name);
             session_1.setAttribute("member_account", member_account);
-            session_1.setAttribute("role", role);
+            session_1.setAttribute("is_admin", is_admin);
             rsp.put("response", rs);
 		}else {
 			rsp.put("message", "Login_Fail");
@@ -128,11 +128,11 @@ public class LoginController extends HttpServlet {
 		HttpSession session = request.getSession(false);
         if (session != null) {
             String Session_id = (String) session.getAttribute("member_id");
-            String Session_name = (String) session.getAttribute("name");
+            String Session_name = (String) session.getAttribute("member_name");
             String Session_email = (String) session.getAttribute("member_account");
-            String Session_role = (String) session.getAttribute("role");
+            String Session_role = (String) session.getAttribute("is_admin");
 	        rsp.put("message", "登入成功！");
-            System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ role:"+Session_role+", member_account:"+Session_email);
+            System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ is_admin:"+Session_role+", member_account:"+Session_email);
         } else {
             System.out.print("請登入系統！");
             //request.getRequestDispatcher("login.html").include(request, response);
@@ -141,6 +141,8 @@ public class LoginController extends HttpServlet {
         rsp.put("status", "200");
         /** 透過 JsonReader 物件回傳到前端（以 JSONObject 方式） */
         jsr.response(rsp, response);
+        
+        
 		
 	}
 

@@ -26,7 +26,7 @@ public class Member {
     /** member_name，會員姓名 */
     private String member_name;
     
-    /** password，會員密碼 */
+    /** hash_pwd，會員密碼 */
     private String hash_pwd;
     
     /** login_times，更新時間的分鐘數 */
@@ -43,12 +43,12 @@ public class Member {
      * 採用多載（overload）方法進行，此建構子用於建立會員資料時，產生一名新的會員
      *
      * @param member_account 會員電子信箱
-     * @param password 會員密碼
+     * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
      */
-    public Member(String member_account, String password, String member_name) {
+    public Member(String member_account, String hash_pwd, String member_name) {
         this.member_account = member_account;
-        this.hash_pwd = password;
+        this.hash_pwd = hash_pwd;
         this.member_name = member_name;
         update();
     }
@@ -59,13 +59,13 @@ public class Member {
      * 
      * @param id 會員編號
      * @param member_account 會員電子信箱
-     * @param password 會員密碼
+     * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
      */
-    public Member(int id, String member_account, String password, String member_name) {
+    public Member(int id, String member_account, String hash_pwd, String member_name) {
         this.member_id = id;
         this.member_account = member_account;
-        this.hash_pwd = password;
+        this.hash_pwd = hash_pwd;
         this.member_name = member_name;
  
     }
@@ -76,15 +76,15 @@ public class Member {
      *
      * @param id 會員編號
      * @param member_account 會員電子信箱
-     * @param password 會員密碼
+     * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
      * @param login_times 更新時間的分鐘數
      * @param status the 會員之組別
      */
-    public Member(int id, String member_account, String password, String member_name, String member_bio, int is_admin) {
+    public Member(int id, String member_account, String hash_pwd, String member_name, String member_bio, int is_admin) {
         this.member_id = id;
         this.member_account = member_account;
-        this.hash_pwd = password;
+        this.hash_pwd = hash_pwd;
         this.member_name = member_name;
         this.member_bio = member_bio;
         this.is_admin = is_admin;
@@ -120,7 +120,7 @@ public class Member {
     /**
      * 取得會員之密碼
      *
-     * @return the password 回傳會員密碼
+     * @return the hash_pwd 回傳會員密碼
      */
     public String getPassword() {
         return this.hash_pwd;
