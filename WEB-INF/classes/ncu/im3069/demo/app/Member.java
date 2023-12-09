@@ -20,7 +20,7 @@ public class Member {
     /** id，會員編號 */
     private int member_id;
     
-    /** email，會員電子郵件信箱 */
+    /** member_account，會員電子郵件信箱 */
     private String member_account;
     
     /** member_name，會員姓名 */
@@ -42,12 +42,12 @@ public class Member {
      * 實例化（Instantiates）一個新的（new）Member物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立會員資料時，產生一名新的會員
      *
-     * @param email 會員電子信箱
+     * @param member_account 會員電子信箱
      * @param password 會員密碼
      * @param member_name 會員姓名
      */
-    public Member(String email, String password, String member_name) {
-        this.member_account = email;
+    public Member(String member_account, String password, String member_name) {
+        this.member_account = member_account;
         this.hash_pwd = password;
         this.member_name = member_name;
         update();
@@ -58,13 +58,13 @@ public class Member {
      * 採用多載（overload）方法進行，此建構子用於更新會員資料時，產生一名會員同時需要去資料庫檢索原有更新時間分鐘數與會員組別
      * 
      * @param id 會員編號
-     * @param email 會員電子信箱
+     * @param member_account 會員電子信箱
      * @param password 會員密碼
      * @param member_name 會員姓名
      */
-    public Member(int id, String email, String password, String member_name) {
+    public Member(int id, String member_account, String password, String member_name) {
         this.member_id = id;
-        this.member_account = email;
+        this.member_account = member_account;
         this.hash_pwd = password;
         this.member_name = member_name;
  
@@ -75,15 +75,15 @@ public class Member {
      * 採用多載（overload）方法進行，此建構子用於查詢會員資料時，將每一筆資料新增為一個會員物件
      *
      * @param id 會員編號
-     * @param email 會員電子信箱
+     * @param member_account 會員電子信箱
      * @param password 會員密碼
      * @param member_name 會員姓名
      * @param login_times 更新時間的分鐘數
      * @param status the 會員之組別
      */
-    public Member(int id, String email, String password, String member_name, String member_bio, int is_admin) {
+    public Member(int id, String member_account, String password, String member_name, String member_bio, int is_admin) {
         this.member_id = id;
-        this.member_account = email;
+        this.member_account = member_account;
         this.hash_pwd = password;
         this.member_name = member_name;
         this.member_bio = member_bio;
@@ -102,7 +102,7 @@ public class Member {
     /**
      * 取得會員之電子郵件信箱
      *
-     * @return the email 回傳會員電子郵件信箱
+     * @return the member_account 回傳會員電子郵件信箱
      */
     public String getEmail() {
         return this.member_account;
