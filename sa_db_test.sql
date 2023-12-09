@@ -48,6 +48,7 @@ START TRANSACTION;
 USE `mydb`;
 INSERT INTO `mydb`.`Member` (`member_id`, `member_name`, `member_account`, `salt`, `hash_pwd`, `member_bio`, `is_admin`, `member_img_path`) VALUES (1, 'alan', 'a', 'a', 'a', NULL, 0, NULL);
 INSERT INTO `mydb`.`Member` (`member_id`, `member_name`, `member_account`, `salt`, `hash_pwd`, `member_bio`, `is_admin`, `member_img_path`) VALUES (2, 'ben', 'b', 'b', 'b', NULL, 0, NULL);
+INSERT INTO `mydb`.`Member` (`member_id`, `member_name`, `member_account`, `salt`, `hash_pwd`, `member_bio`, `is_admin`, `member_img_path`) VALUES (3, 'admin', '123', '123', '123', NULL, 1, NULL);
 
 COMMIT;
 
