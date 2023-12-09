@@ -139,22 +139,26 @@
             var message = '';
 
             if(Object.keys(data[0]).length > 1){
-                var firstElement = data[0];
                 message += 'member_id: ' + data[0]['member_id'] + "\n";
-                message += 'is_admin: ' + firstElement['is_admin'] + "\n";
-                message += 'hash_pwd: ' + firstElement['hash_pwd'] + "\n";
-                message += 'member_name: ' + firstElement['member_name'] + "\n";
-                message += 'member_account: ' + firstElement['member_account'] + "\n";
-                message += "login success";
+                message += 'is_admin: ' + data[0]['is_admin'] + "\n";
+                message += 'hash_pwd: ' + data[0]['hash_pwd'] + "\n";
+                message += 'member_name: ' + data[0]['member_name'] + "\n";
+                message += 'member_account: ' + data[0]['member_account'] + "\n";
 
                 if(data[0]['is_admin'] == 1 && adminCheck){
                     alert('Login successful as an admin!');
                     setCookie('adminLoggedIn', 'true');
+                    setCookie('memberId', data[0]['member_id']);
+                    window.location.href = "/NCU_MIS_SA/index.html";
+                }else if(data[0]['is_admin'] == 0 && adminCheck){
+                    alert('沒有管理員權限，請重新登入');
+                    location.reload();
                 }else{
                     setCookie('memberLoggedIn', 'true');
+                    setCookie('memberId', data[0]['member_id']);
+                    window.location.href = "/NCU_MIS_SA/index.html";
                 }
-                setCookie('memberId', data[0]['member_id']);
-                window.location.href = "/NCU_MIS_SA/index.html";
+                
             }
 
             alert(message);
