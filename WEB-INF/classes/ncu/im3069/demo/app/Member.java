@@ -23,7 +23,7 @@ public class Member {
     /** email，會員電子郵件信箱 */
     private String member_account;
     
-    /** name，會員姓名 */
+    /** member_name，會員姓名 */
     private String member_name;
     
     /** password，會員密碼 */
@@ -44,12 +44,12 @@ public class Member {
      *
      * @param email 會員電子信箱
      * @param password 會員密碼
-     * @param name 會員姓名
+     * @param member_name 會員姓名
      */
-    public Member(String email, String password, String name) {
+    public Member(String email, String password, String member_name) {
         this.member_account = email;
         this.hash_pwd = password;
-        this.member_name = name;
+        this.member_name = member_name;
         update();
     }
 
@@ -60,13 +60,13 @@ public class Member {
      * @param id 會員編號
      * @param email 會員電子信箱
      * @param password 會員密碼
-     * @param name 會員姓名
+     * @param member_name 會員姓名
      */
-    public Member(int id, String email, String password, String name) {
+    public Member(int id, String email, String password, String member_name) {
         this.member_id = id;
         this.member_account = email;
         this.hash_pwd = password;
-        this.member_name = name;
+        this.member_name = member_name;
  
     }
     
@@ -77,15 +77,15 @@ public class Member {
      * @param id 會員編號
      * @param email 會員電子信箱
      * @param password 會員密碼
-     * @param name 會員姓名
+     * @param member_name 會員姓名
      * @param login_times 更新時間的分鐘數
      * @param status the 會員之組別
      */
-    public Member(int id, String email, String password, String name, String member_bio, int is_admin) {
+    public Member(int id, String email, String password, String member_name, String member_bio, int is_admin) {
         this.member_id = id;
         this.member_account = email;
         this.hash_pwd = password;
-        this.member_name = name;
+        this.member_name = member_name;
         this.member_bio = member_bio;
         this.is_admin = is_admin;
     }
@@ -111,7 +111,7 @@ public class Member {
     /**
      * 取得會員之姓名
      *
-     * @return the name 回傳會員姓名
+     * @return the member_name 回傳會員姓名
      */
     public String getName() {
         return this.member_name;
