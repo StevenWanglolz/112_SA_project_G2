@@ -130,7 +130,7 @@ public class LoginController extends HttpServlet {
             String Session_id = (String) session.getAttribute("member_id");
             String Session_name = (String) session.getAttribute("member_name");
             String Session_email = (String) session.getAttribute("member_account");
-            String Session_role = (String) session.getAttribute("is_admin");
+            int Session_role = (int) session.getAttribute("is_admin");
 	        rsp.put("message", "登入成功！");
             System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ is_admin:"+Session_role+", member_account:"+Session_email);
         } else {
