@@ -32,8 +32,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="admin_page" href="test.html" style="display: none;">
-                            <i class="bi bi-database"></i> 連線測試
+                        <a class="nav-link active" aria-current="page" id="admin_page" href="test.html" style="display: none;">
+                            <i class="bi bi-database-fill"></i> 連線測試
                         </a>
                     </li>
                 </ul>
@@ -55,49 +55,39 @@
         </div>
     </nav>
     
-    <center>
+    <!-- member table -->
+    <div class="container">
         <br>
-        <h5 class="fs-4">會員資料連接測試</h5>
+        <h5 class="fs-4 mt-3 align-items-center">會員資料連接測試</h5>
         <br>
-        <table id="table" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>姓名</th>
-                    <th>帳號</th>
-                    <th>salt</th>
-                    <th>密碼</th>
-                    <th>自介</th>
-                    <th>管理員身份</th>
-                    <th>大頭照連結</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                </tr>
-            </tbody>
-        </table>
-        <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">取得所有會員資料</button>
+        <div class="table-responsive">
+            <table id="table" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>姓名</th>
+                        <th>帳號</th>
+                        <th>salt</th>
+                        <th>密碼</th>
+                        <th>自介</th>
+                        <th>管理員身份</th>
+                        <th>大頭照連結</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">取得所有會員資料</button>
+        </div>
         <hr class="my-4">
         <h5 class="fs-4">登入測試</h5>
-        <div id="flashMessage" class="message" style="display: none;"></div>
-    </center>
+    </div>
             
-    <!-- login form -->
+    <!-- login test form -->
     <div class="container col-xl-10 col-xxl-8 px-4 py-5"> 
-        <div class="row align-items-center g-lg-5 py-5">
-            <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">共創學習之道</h1>
-                <p class="col-lg-10 fs-4">這個平台旨在為學生提供一個豐富、開放的學習環境，讓你能夠在學術領域中更上一層樓，一同探索學習的無限可能</p>
-            </div>
+        <div class="row align-items-center">
             <div class="col-md-10 mx-auto col-lg-5">
                 <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
                     <div class="form-floating mb-3">
