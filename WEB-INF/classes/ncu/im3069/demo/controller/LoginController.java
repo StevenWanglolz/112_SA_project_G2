@@ -1,5 +1,6 @@
 package ncu.im3069.demo.controller;
 
+
 import java.io.PrintWriter;
 import java.io.IOException;
 
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ncu.im3069.tools.JsonReader;
+
 
 import ncu.im3069.demo.app.MemberHelper;
 import ncu.im3069.demo.app.Member;
@@ -90,6 +92,7 @@ public class LoginController extends HttpServlet {
 		
 		String member_account = jsob.getString("member_account");
 		String hash_pwd = jsob.getString("hash_pwd");
+		String jstr = new String();
 		
 		if(member_account == null) {
 			member_account = "";
@@ -132,7 +135,7 @@ public class LoginController extends HttpServlet {
             String Session_email = (String) session.getAttribute("member_account");
             int Session_role = (int) session.getAttribute("is_admin");
 	        rsp.put("message", "登入成功！");
-            System.out.print(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ is_admin:"+Session_role+", member_account:"+Session_email);
+            System.out.println(Session_id+"您好, " + Session_name + " 歡迎您來到個人資訊中心！ is_admin:"+Session_role+", member_account:"+Session_email);
         } else {
             System.out.print("請登入系統！");
             //request.getRequestDispatcher("login.html").include(request, response);
@@ -142,6 +145,8 @@ public class LoginController extends HttpServlet {
         /** 透過 JsonReader 物件回傳到前端（以 JSONObject 方式） */
         jsr.response(rsp, response);
         
+        jstr = rsp.toString();
+        System.out.println(jstr);
         
 		
 	}
