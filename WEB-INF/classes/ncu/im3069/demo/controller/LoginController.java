@@ -98,7 +98,7 @@ public class LoginController extends HttpServlet {
 			password = "";
 		}
 		
-		JSONObject rs = mh.getbymail(mail, password);
+		JSONObject rs = mh.getByEmail(mail, password);
 		JSONObject rsp = new JSONObject();
 		
 		System.out.println(rs.get("data"));

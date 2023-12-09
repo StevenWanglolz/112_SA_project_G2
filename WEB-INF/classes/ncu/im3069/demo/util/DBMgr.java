@@ -23,7 +23,7 @@ public class DBMgr {
 
     /** DB_URL常數，指定資料庫所在之IP或網域、Port號碼與指定所要使用資料庫 */
 //    static final String DB_URL = "jdbc:mysql://localhost:3306/missa?allowPublicKeyRetrieval=true&useSSL=false";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/missa";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 
     /** USER常數，所要使用之資料庫使用者帳號 */
     static final String USER = "root";
@@ -75,6 +75,9 @@ public class DBMgr {
         /** 嘗試透過DriverManager的getConnection()建立並取得資料庫連線 */
         try {
             conn = DriverManager.getConnection(DBMgr.DB_URL, props);
+            if (conn != null) {
+                System.out.println("成功連線到資料庫！");
+            }
         } catch (Exception e) {
             /** 若錯誤則印出錯誤訊息 */
             e.printStackTrace();
