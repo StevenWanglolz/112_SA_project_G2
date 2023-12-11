@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員註冊</title>
+
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="statics/icons/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="statics/js/bootstrap.bundle.min.js"></script>
+    <script src="statics/js/hugo.js"></script>
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler border-0 ps-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand ms-1" href="index.html">學生資源分享站</a>
+            <!-- menu -->
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto ms-2 mb-2 mb-lg-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">
+                            <i class="bi bi-house-door"></i> 主頁
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-chat"></i> 通知欄
+                        </a>
+                    </li>
+                </ul>
+                <!-- search bar -->
+                <form role="search">
+                    <div class="input-group my-2">
+                        <span class="input-group-text bg-white text-secondary border-end-0 ms-1 pe-2" id="basic-addon1"><i class="bi bi-search"></i></span>
+                        <input type="search" class="form-control border-start-0 me-1 ps-2" placeholder="搜尋" aria-label="Search" aria-describedby="basic-addon1">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- register form -->
+    <div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">免費註冊</h1>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+      
+                <div class="modal-body p-5 pt-0">
+                    <form class="row g-2">
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="email" class="form-control rounded-3" placeholder="name@example.com">
+                            <label for="floatingInput">使用者名稱</label>
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="email" class="form-control rounded-3" placeholder="name@example.com">
+                            <label for="floatingInput">帳號</label>
+                        </div>
+                        <div class="form-floating mb-3 col-12 mx-0">
+                            <input type="email" class="form-control rounded-3" placeholder="name@example.com">
+                            <label for="floatingInput">密碼</label>
+                        </div>
+                        <div class="form-floating mb-3 col-12">
+                            <input type="password" class="form-control rounded-3" placeholder="Password">
+                            <label for="floatingPassword">再次輸入密碼</label>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                <label class="form-check-label" for="gridCheck">
+                                    我同意分享所有上傳資料
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="mb-3 btn btn-lg rounded-3 btn-primary text-right" type="submit">註冊</button>
+                        </div>
+                        <!-- <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
