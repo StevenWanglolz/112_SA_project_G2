@@ -84,7 +84,7 @@
         </div>
         <br>
         <div class="text-center">
-            <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">刷新會員資料</button>
+            <button class="btn btn-lg btn-outline-primary" type="button" onclick="getAllMember()">刷新會員資料</button>
         </div>
     </div>
             
@@ -160,6 +160,7 @@
         }
 
         function updateTable(data) {
+            const currentId = getCookie('memberId');
             $("#table > tbody").empty();
             var table_html = '';
             $.each(data, function(index, value) {
@@ -172,7 +173,9 @@
                 table_html += '<td>' + value['is_admin'] + '</td>';
                 table_html += '<td>' + value['member_img_path'] + '</td>';
                 // table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a><td>';
-                table_html += '<td><a class="btn btn-outline-danger" href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
+                if(value['member_id'] != currentId){
+                    table_html += '<td><a class="btn btn-outline-danger" href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
+                }
             })
 
             $("#table > tbody").append(table_html);
