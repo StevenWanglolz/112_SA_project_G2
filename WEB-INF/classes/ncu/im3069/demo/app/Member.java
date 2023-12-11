@@ -175,7 +175,7 @@ public class Member {
         jso.put("member_id", getID());
         jso.put("member_name", getName());
         jso.put("member_account", getEmail());
-        jso.put("hash_pwd", getPassword());
+        //jso.put("hash_pwd", getPassword());
         jso.put("member_bio", getmember_bio());
         jso.put("is_admin", getis_admin());
         

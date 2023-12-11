@@ -569,9 +569,9 @@ public class MemberHelper {
         
         /** 將SQL指令、花費時間、影響行數與所有會員資料之JSONArray，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("row", row);
-        response.put("time", duration);
+        
+       
+        //response.put("time", duration);
         response.put("data", jsa);
 
         return response;
