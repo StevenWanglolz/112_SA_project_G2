@@ -131,6 +131,12 @@
                 success: function (response) {
                     if(response.status == 200){
                         loginCheck(response.response.data, adminCheck);
+                    }else if(response.status == 403){
+                        alert('此帳號不存在');
+                    }else if(response.status == 414){
+                        alert('密碼錯誤');
+                    }else{
+                        alert('未知錯誤');
                     }
                 },
                 error: function () {
@@ -141,31 +147,27 @@
 
         function loginCheck(data, adminCheck) {
             var message = '';
+            // message += 'member_id: ' + data[0]['member_id'] + "\n";
+            // message += 'is_admin: ' + data[0]['is_admin'] + "\n";
+            // message += 'hash_pwd: ' + data[0]['hash_pwd'] + "\n";
+            // message += 'member_name: ' + data[0]['member_name'] + "\n";
+            // message += 'member_account: ' + data[0]['member_account'] + "\n";
 
-            if(Object.keys(data[0]).length > 1){
-                message += 'member_id: ' + data[0]['member_id'] + "\n";
-                message += 'is_admin: ' + data[0]['is_admin'] + "\n";
-                message += 'hash_pwd: ' + data[0]['hash_pwd'] + "\n";
-                message += 'member_name: ' + data[0]['member_name'] + "\n";
-                message += 'member_account: ' + data[0]['member_account'] + "\n";
-
-                if(data[0]['is_admin'] == 1 && adminCheck){
-                    alert('Login successful as an admin!');
-                    setCookie('adminLoggedIn', 'true');
-                    setCookie('memberId', data[0]['member_id']);
-                    window.location.href = "/NCU_MIS_SA/index.html";
-                }else if(data[0]['is_admin'] == 0 && adminCheck){
-                    alert('沒有管理員權限，請重新登入');
-                    location.reload();
-                }else{
-                    setCookie('memberLoggedIn', 'true');
-                    setCookie('memberId', data[0]['member_id']);
-                    window.location.href = "/NCU_MIS_SA/index.html";
-                }
-                
+            if(data[0]['is_admin'] == 1 && adminCheck){
+                alert('Login successful as an admin!');
+                setCookie('adminLoggedIn', 'true');
+                setCookie('memberId', data[0]['member_id']);
+                window.location.href = "/NCU_MIS_SA/index.html";
+            }else if(data[0]['is_admin'] == 0 && adminCheck){
+                alert('沒有管理員權限，請重新登入');
+                location.reload();
+            }else{
+                setCookie('memberLoggedIn', 'true');
+                setCookie('memberId', data[0]['member_id']);
+                window.location.href = "/NCU_MIS_SA/index.html";
             }
 
-            alert(message);
+            // alert(message);
 
         }
     </script>
