@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登入</title>
+    <title>連線測試</title>
 
     <link href="statics/css/bootstrap.min.css" rel="stylesheet">
     <link href="statics/icons/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -75,21 +75,21 @@
                         <th>自介</th>
                         <th>管理員身份</th>
                         <th>大頭照連結</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
         </div>
+        <br>
         <div class="text-center">
-            <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">取得所有會員資料</button>
+            <button class="btn btn-lg btn-primary" type="button" onclick="getAllMember()">刷新會員資料</button>
         </div>
-        <hr class="my-4">
-        <h5>登入測試</h5>
     </div>
             
     <!-- login test form -->
-    <div class="container col-xl-10 col-xxl-8 px-4 py-5"> 
+    <!-- <div class="container col-xl-10 col-xxl-8 px-4 py-5"> 
         <div class="row align-items-center">
             <div class="col-md-10 mx-auto col-lg-5">
                 <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
@@ -112,10 +112,11 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
         checkLoginStatus();
+        getAllMember();
 
         function checkLoginStatus() {
             const memberLoggedIn = getCookie('memberLoggedIn');
@@ -170,56 +171,87 @@
                 table_html += '<td>' + value['member_bio'] + '</td>';
                 table_html += '<td>' + value['is_admin'] + '</td>';
                 table_html += '<td>' + value['member_img_path'] + '</td>';
-                // table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a> | ';
-                // table_html += '<a href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
+                // table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a><td>';
+                table_html += '<td><a class="btn btn-outline-danger" href="javascript: deleteMember(' + value['id'] + ');">刪除</a></td></tr>';
             })
 
             $("#table > tbody").append(table_html);
         }
 
-        function login(){
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var adminCheck = document.getElementById('adminCheck').checked;
-
-            var data_object = {
-                "member_account": username,
-                "hash_pwd": password
-            };
-
-            var data_string = JSON.stringify(data_object);
-
-            $.ajax({
-                type: "POST",
-                url: "api/login.do",
-                data: data_string,
-                crossDomain: true,
-                cache: false,
-                dataType: 'json',
-                timeout: 5000,
-                success: function (response) {
-                    if(response.status == 200){
-                        getMessage(response.response.data);
+        function deleteMember(id) {
+            var check = window.confirm("確認刪除會員？");
+            if (check == true) {
+                console.log("You pressed OK!");
+                var request = {'id': id};
+                var data_string = JSON.stringify(request);
+                $.ajax({
+                    type: "DELETE",
+                    url: "api/member.do",
+                    crossDomain: true,
+                    data: data_string,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {
+                        if(response.status == 200){
+                            alert('已經成功刪除會員')
+                            getAllMember();
+                        }
+                        console.log(response);
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
                     }
-                },
-                error: function () {
-                    alert("無法連線到伺服器！");
-                }
-            });
+                });
+            }
+            else {
+                console.log("You pressed Cancel!");
+            }
         }
 
-        function getMessage(data) {
-            var message = '';
-            $.each(data, function(index, value) {
-                message += 'member_id: ' + value['member_id'] + "\n";
-                message += 'is_admin: ' + value['is_admin'] + "\n";
-                message += 'hash_pwd: ' + value['hash_pwd'] + "\n";
-                message += 'member_name: ' + value['member_name'] + "\n";
-                message += 'member_account: ' + value['member_account'] + "\n";
-                message += "login success";
-            })
-            alert(message);
-        }
+        // function login(){
+        //     var username = document.getElementById('username').value;
+        //     var password = document.getElementById('password').value;
+        //     var adminCheck = document.getElementById('adminCheck').checked;
+
+        //     var data_object = {
+        //         "member_account": username,
+        //         "hash_pwd": password
+        //     };
+
+        //     var data_string = JSON.stringify(data_object);
+
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "api/login.do",
+        //         data: data_string,
+        //         crossDomain: true,
+        //         cache: false,
+        //         dataType: 'json',
+        //         timeout: 5000,
+        //         success: function (response) {
+        //             if(response.status == 200){
+        //                 getMessage(response.response.data);
+        //             }
+        //         },
+        //         error: function () {
+        //             alert("無法連線到伺服器！");
+        //         }
+        //     });
+        // }
+
+        // function getMessage(data) {
+        //     var message = '';
+        //     $.each(data, function(index, value) {
+        //         message += 'member_id: ' + value['member_id'] + "\n";
+        //         message += 'is_admin: ' + value['is_admin'] + "\n";
+        //         message += 'hash_pwd: ' + value['hash_pwd'] + "\n";
+        //         message += 'member_name: ' + value['member_name'] + "\n";
+        //         message += 'member_account: ' + value['member_account'] + "\n";
+        //         message += "login success";
+        //     })
+        //     alert(message);
+        // }
     </script>
 </body>
 </html>
