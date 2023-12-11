@@ -134,12 +134,14 @@ if(session != null) {
 	            rsp.put("message", "Login_Success");
 	            rsp.put("response", rs);
 			}else {
-				rsp.put("message", "Login_Fail");
+				rsp.put("message", "Wrong_password");
+				
 	    		System.out.println("密碼錯誤");
 	    	}
 		}
 		else {
-			rsp.put("message", "Login_Fail");
+			rsp.put("message", "No_such_account");
+			
     		System.out.println("帳號錯誤，帳號不存在!");
 		}
 		
@@ -181,10 +183,15 @@ if(session != null) {
             }
 	        rsp.put("message", "登入成功！");
 	        rsp.put("status", "200");
+	       
             System.out.println(Session_name+"您好,  歡迎您來到個人資訊中心！ 身分:"+Session_identity+", member_account:"+Session_email);
-        } else {
+        } 
+        else if(session != null & rsp.get("message").toString()=="Wrong_password") {
+        	rsp.put("status", "414");
+        }
+        else {
             System.out.print("請登入系統！");
-            rsp.put("status", "401");
+            rsp.put("status", "403");
             //request.getRequestDispatcher("login.html").include(request, response);
         }
         
@@ -193,7 +200,7 @@ if(session != null) {
         jsr.response(rsp, response);
         
         jstr = rsp.toString();
-        System.out.println(jstr);
+        System.out.println("return string: " + jstr);
         
 		
 	}

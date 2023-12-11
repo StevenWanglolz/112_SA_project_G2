@@ -598,11 +598,10 @@ public class MemberHelper {
             pres.setString(1, member_account);
             /** 執行查詢之SQL指令並記錄其回傳之資料 */
             rs = pres.executeQuery();
-            System.out.println("rs return: "+rs.toString());
             /** 讓指標移往最後一列，取得目前有幾行在資料庫內 */
             rs.next();
             row = rs.getInt("count(*)");
-            System.out.print(row);
+            System.out.println(row);
 
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
