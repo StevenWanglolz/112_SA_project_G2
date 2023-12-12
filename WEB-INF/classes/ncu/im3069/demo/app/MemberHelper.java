@@ -388,8 +388,8 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `mydb`.`member`(`member_id`, `member_name`, `member_account`, `hash_pwd`,  `member_bio`, `is_admin`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `mydb`.`member`(`member_name`, `member_account`, `hash_pwd`,`is_admin`)"
+                    + " VALUES(?, ?, ?, ?)";
             
             /** 取得所需之參數 */
             String name = m.getName();
@@ -401,11 +401,11 @@ public class MemberHelper {
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             //pres.setString(1, name);
-            pres.setString(2, name);
-            pres.setString(3, member_account);
-            pres.setString(4, hash_pwd);
-            pres.setString(5, "");
-            pres.setInt(6, is_admin);
+            pres.setString(1, name);
+            pres.setString(2, member_account);
+            pres.setString(3, hash_pwd);
+            //pres.setString(5, "");
+            pres.setInt(4, is_admin);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -606,7 +606,7 @@ public class MemberHelper {
             /** 讓指標移往最後一列，取得目前有幾行在資料庫內 */
             rs.next();
             row = rs.getInt("count(*)");
-            System.out.println(row);
+            //System.out.println(row);
 
         } catch (SQLException e) {
             /** 印出JDBC SQL指令錯誤 **/
