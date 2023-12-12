@@ -92,12 +92,12 @@
         }
         
         function login(){
-            var account = document.getElementById('account').value;
+            var username = document.getElementById('account').value;
             var password = document.getElementById('password').value;
             var adminCheck = document.getElementById('adminCheck').checked;
 
             var data_object = {
-                "member_account": account,
+                "member_account": username,
                 "hash_pwd": password
             };
 
