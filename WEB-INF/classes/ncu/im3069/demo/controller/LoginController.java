@@ -126,11 +126,11 @@ if(session != null) {
 	    		System.out.println(member_name);
 	    		System.out.println(is_admin);
 	    		
-	    		HttpSession session_1 = request.getSession();
-	    		session_1.setAttribute("member_id", member_id);
-	            session_1.setAttribute("member_name", member_name);
-	            session_1.setAttribute("member_account", member_account);
-	            session_1.setAttribute("is_admin", is_admin);
+	    		//HttpSession session_1 = request.getSession();
+	    		//session_1.setAttribute("member_id", member_id);
+	            //session_1.setAttribute("member_name", member_name);
+	            //session_1.setAttribute("member_account", member_account);
+	           // session_1.setAttribute("is_admin", is_admin);
 	            rsp.put("message", "Login_Success");
 	            rsp.put("response", rs);
 			}else {

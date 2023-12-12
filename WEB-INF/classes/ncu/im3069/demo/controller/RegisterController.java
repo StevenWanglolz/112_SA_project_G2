@@ -60,17 +60,19 @@ public class RegisterController extends HttpServlet {
 	    		 JSONObject data = mh.create(m);
 	    		  
 	    		 JSONObject resp = new JSONObject();
-	    		 resp.put("status", "200");
+	    		 
 	    		 resp.put("message", "註冊成功!");
+	    		 resp.put("status", "200");
 	    		 resp.put("response", data);
 	              
 	    		 jsr.response(resp, response);
-	    		  
+	    		 System.out.println("check response: " + resp.toString());
 	    	 }
 	    	 else {
-	    		  String resp = "{\"status\": \'400\', \"message\": \'新增帳號失敗，帳號重複！\', \'response\': \'\'}";
+	    		  String resp = "{ \"message\": \"帳號重複！\", \"status\": \"400\"}";
 	    		  
 	    		  jsr.response(resp, response);
+	    		  System.out.println("check response: " + resp.toString());
 	    	  }
 	      }
 	        
