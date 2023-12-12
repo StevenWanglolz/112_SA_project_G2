@@ -52,30 +52,26 @@
                 <p class="col-lg-10 fs-4">這個平台旨在為學生提供一個豐富、開放的學習環境，讓你能夠在學術領域中更上一層樓，一同探索學習的無限可能</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-                <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" onsubmit="login()">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="account" placeholder="Account">
+                        <input type="text" class="form-control" id="account" placeholder="Account" required>
                         <label for="account">帳號</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" placeholder="Password" required>
                         <label for="password">密碼</label>
                     </div>
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" value="" id="adminCheck">
                         <label class="form-check-label" for="adminCheck">以管理員身份</label>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="button" onclick="login()">登入</button>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">登入</button>
                     <hr class="my-4">
                     <small class="text-body-secondary">沒有帳號？  <a href="register.html">註冊帳號</a></small>
-                    <!-- <a class="w-100 py-2 my-1 btn btn-outline-secondary rounded-3" type="button" href="register.html">註冊帳號</a> -->
                 </form>
             </div>
         </div>
     </div>
-
-
-    <p id="loginMessage"></p>
 
     <script>
         checkLoginStatus();
@@ -91,7 +87,11 @@
             }
         }
         
+        document.querySelector('form').addEventListener('submit', login);
+
         function login(){
+            event.preventDefault();
+
             var username = document.getElementById('account').value;
             var password = document.getElementById('password').value;
             var adminCheck = document.getElementById('adminCheck').checked;
@@ -129,13 +129,6 @@
         }
 
         function loginCheck(data, adminCheck) {
-            var message = '';
-            // message += 'member_id: ' + data[0]['member_id'] + "\n";
-            // message += 'is_admin: ' + data[0]['is_admin'] + "\n";
-            // message += 'hash_pwd: ' + data[0]['hash_pwd'] + "\n";
-            // message += 'member_name: ' + data[0]['member_name'] + "\n";
-            // message += 'member_account: ' + data[0]['member_account'] + "\n";
-
             if(data[0]['is_admin'] == 1 && adminCheck){
                 alert('Login successful as an admin!');
                 setCookie('adminLoggedIn', 'true');
@@ -149,9 +142,6 @@
                 setCookie('memberId', data[0]['member_id']);
                 window.location.href = "/NCU_MIS_SA/index.html";
             }
-
-            // alert(message);
-
         }
     </script>
 </body>
