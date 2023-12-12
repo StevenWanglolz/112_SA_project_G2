@@ -388,20 +388,24 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "INSERT INTO `mydb`.`member`(`member_id`, `member_name`, `member_account`, `hash_pwd`, `created`, `member_bio`, `is_admin`)"
-                    + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `mydb`.`member`(`member_id`, `member_name`, `member_account`, `hash_pwd`,  `member_bio`, `is_admin`)"
+                    + " VALUES(?, ?, ?, ?, ?, ?)";
             
             /** 取得所需之參數 */
             String name = m.getName();
             String member_account = m.getEmail();
             String hash_pwd = m.getPassword();
+            int is_admin = m.getis_admin();
+            
            
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
-            pres.setString(1, name);
-            pres.setString(2, member_account);
-            pres.setString(3, hash_pwd);
-           
+            //pres.setString(1, name);
+            pres.setString(2, name);
+            pres.setString(3, member_account);
+            pres.setString(4, hash_pwd);
+            pres.setString(5, "");
+            pres.setInt(6, is_admin);
             
             /** 執行新增之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -428,9 +432,10 @@ public class MemberHelper {
 
         /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
         JSONObject response = new JSONObject();
-        response.put("sql", exexcute_sql);
-        response.put("time", duration);
-        response.put("row", row);
+        //response.put("sql", exexcute_sql);
+        //response.put("time", duration);
+        response.put("row:", row);
+  
 
         return response;
     }

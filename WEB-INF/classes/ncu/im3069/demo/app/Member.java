@@ -46,10 +46,11 @@ public class Member {
      * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
      */
-    public Member(String member_account, String hash_pwd, String member_name) {
+    public Member(String member_account, String hash_pwd, String member_name, int is_admin) {
         this.member_account = member_account;
         this.hash_pwd = hash_pwd;
         this.member_name = member_name;
+        this.is_admin = is_admin;
         update();
     }
 
