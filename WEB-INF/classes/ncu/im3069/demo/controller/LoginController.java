@@ -56,7 +56,7 @@ public class LoginController extends HttpServlet {
 		JSONObject jsob = new JSONObject();
 		
 		HttpSession session = request.getSession(false);
-if(session != null) {
+		if(session != null) {
 		//	String Session_id = (String)session.getAttribute("member_id");
 			String Session_name = (String)session.getAttribute("member_name");
 			if(Session_name != "") {
@@ -102,13 +102,14 @@ if(session != null) {
 		}
 		//確認帳號是否存在
 		boolean checking = mh.checkAccount(member_account);
+		
 		//JSONObject rs = mh.getByEmail(member_account, hash_pwd);
 		//JSONObject rsp = new JSONObject();
 		
-		//System.out.println(rs.get("data"));
 		
-		//account existed, check pwd
+		//確認密碼是否正確
 		JSONObject rsp = new JSONObject();
+		
 		if(checking) {
 			JSONObject rs = mh.getByEmail(member_account, hash_pwd);
 		//	JSONObject rsp = new JSONObject();
@@ -116,9 +117,9 @@ if(session != null) {
 			System.out.println(rs.get("data"));
 			
 			if(rs.getJSONArray("data").length() != 0) {
-				System.out.println("登入成功!");
 				
-				System.out.println(rs.getJSONArray("data").get(0));
+				
+				
 				String member_id=((JSONObject) rs.getJSONArray("data").get(0)).get("member_id").toString();
 	    		String member_name=((JSONObject) rs.getJSONArray("data").get(0)).get("member_name").toString();
 	    		int is_admin=(int)((JSONObject) rs.getJSONArray("data").get(0)).get("is_admin");
@@ -126,74 +127,42 @@ if(session != null) {
 	    		System.out.println(member_name);
 	    		System.out.println(is_admin);
 	    		
-	    		//HttpSession session_1 = request.getSession();
-	    		//session_1.setAttribute("member_id", member_id);
-	            //session_1.setAttribute("member_name", member_name);
-	            //session_1.setAttribute("member_account", member_account);
-	           // session_1.setAttribute("is_admin", is_admin);
-	            rsp.put("message", "Login_Success");
+	    		//放資料到session裡
+	    		HttpSession session_1 = request.getSession();
+	    		session_1.setAttribute("member_id", member_id);
+	            session_1.setAttribute("member_name", member_name);
+	            session_1.setAttribute("member_account", member_account);
+	            session_1.setAttribute("is_admin", is_admin);
+	    		//從session取出資料
+	            String Session_id = (String) session_1.getAttribute("member_id");
+	            String Session_name = (String) session_1.getAttribute("member_name");
+	            String Session_email = (String) session_1.getAttribute("member_account");
+	            int Session_role = (int) session_1.getAttribute("is_admin");
+	            String Session_identity="";
+	            //判斷登入者身分
+	            if(Session_role==1) {
+	            	 Session_identity="管理員";
+	            }
+	            else {
+	            	 Session_identity="會員";
+	            }
+	            
+	            rsp.put("message", "登入成功！");
+		        rsp.put("status", "200");
 	            rsp.put("response", rs);
+	            
 			}else {
 				rsp.put("message", "Wrong_password");
-				
+				rsp.put("status", "414");
 	    		System.out.println("密碼錯誤");
 	    	}
 		}
 		else {
 			rsp.put("message", "No_such_account");
-			
+            rsp.put("status", "403");
     		System.out.println("帳號錯誤，帳號不存在!");
 		}
-		
-		/*if(rs.getJSONArray("data").length() != 0) {
-			System.out.println("登入成功!");
-			
-			System.out.println(rs.getJSONArray("data").get(0));
-			String member_id=((JSONObject) rs.getJSONArray("data").get(0)).get("member_id").toString();
-    		String member_name=((JSONObject) rs.getJSONArray("data").get(0)).get("member_name").toString();
-    		int is_admin=(int)((JSONObject) rs.getJSONArray("data").get(0)).get("is_admin");
-    		
-    		System.out.println(member_name);
-    		System.out.println(is_admin);
-    		
-    		HttpSession session_1 = request.getSession();
-    		session_1.setAttribute("member_id", member_id);
-            session_1.setAttribute("member_name", member_name);
-            session_1.setAttribute("member_account", member_account);
-            session_1.setAttribute("is_admin", is_admin);
-            rsp.put("message", "Login_Success");
-            rsp.put("response", rs);
-		}else {
-			rsp.put("message", "Login_Fail");
-    		System.out.println("此帳號不存在");
-    	}*/
-		
-		HttpSession session = request.getSession(false);
-        if (session != null & rsp.get("message").toString()=="Login_Success" ) {
-            String Session_id = (String) session.getAttribute("member_id");
-            String Session_name = (String) session.getAttribute("member_name");
-            String Session_email = (String) session.getAttribute("member_account");
-            int Session_role = (int) session.getAttribute("is_admin");
-            String Session_identity="";
-            if(Session_role==1) {
-            	 Session_identity="管理員";
-            }
-            else {
-            	 Session_identity="會員";
-            }
-	        rsp.put("message", "登入成功！");
-	        rsp.put("status", "200");
-	       
-            System.out.println(Session_name+"您好,  歡迎您來到個人資訊中心！ 身分:"+Session_identity+", member_account:"+Session_email);
-        } 
-        else if(session != null & rsp.get("message").toString()=="Wrong_password") {
-        	rsp.put("status", "414");
-        }
-        else {
-            System.out.print("請登入系統！");
-            rsp.put("status", "403");
-            //request.getRequestDispatcher("login.html").include(request, response);
-        }
+
         
       
         /** 透過 JsonReader 物件回傳到前端（以 JSONObject 方式） */
@@ -202,6 +171,5 @@ if(session != null) {
         jstr = rsp.toString();
         System.out.println("return string: " + jstr);
         
-		
 	}
 }
