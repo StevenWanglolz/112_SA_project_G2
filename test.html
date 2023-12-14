@@ -164,7 +164,7 @@
         }
 
         function changeAdmin(member_id) {
-            var request = {'member_id': member_id};
+            var request = {'action':"chAdmin",'member_id': member_id};
             var data_string = JSON.stringify(request);
             $.ajax({
                 type: "PUT",

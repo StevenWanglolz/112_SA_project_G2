@@ -29,7 +29,7 @@ public class Member {
     /** hash_pwd，會員密碼 */
     private String hash_pwd;
     
-    /** login_times，更新時間的分鐘數 */
+    /** member_bio，會員自我介紹 */
     private String member_bio;
     
     /** status，會員之組別 */
@@ -45,6 +45,7 @@ public class Member {
      * @param member_account 會員電子信箱
      * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
+     * @param is_admin 會員身分
      */
     public Member(String member_account, String hash_pwd, String member_name, int is_admin) {
         this.member_account = member_account;
@@ -62,12 +63,14 @@ public class Member {
      * @param member_account 會員電子信箱
      * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
+     * @param member_bio 會員自我介紹
      */
-    public Member(int id, String member_account, String hash_pwd, String member_name) {
+    public Member(int id, String member_account, String hash_pwd, String member_name,String member_bio) {
         this.member_id = id;
         this.member_account = member_account;
         this.hash_pwd = hash_pwd;
         this.member_name = member_name;
+        this.member_bio = member_bio;
  
     }
     
@@ -79,8 +82,8 @@ public class Member {
      * @param member_account 會員電子信箱
      * @param hash_pwd 會員密碼
      * @param member_name 會員姓名
-     * @param login_times 更新時間的分鐘數
-     * @param status the 會員之組別
+     * @param member_bio 會員自我介紹
+     * @param is_admin 會員之身分
      */
     public Member(int id, String member_account, String hash_pwd, String member_name, String member_bio, int is_admin) {
         this.member_id = id;
@@ -89,6 +92,10 @@ public class Member {
         this.member_name = member_name;
         this.member_bio = member_bio;
         this.is_admin = is_admin;
+    }
+    
+    public Member(int id) {
+    	this.member_id = id;
     }
     
     /**
@@ -163,6 +170,26 @@ public class Member {
         }
         
         return data;
+    }
+    
+    /**
+     * 更改該名會員身分
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject changeAdmin() {
+    	JSONObject data = new JSONObject();
+    	
+    	/** 檢查該名會員是否已經在資料庫 */
+        if(this.member_id != 0) {
+            /** 若有則將其身分更改至資料庫中 */
+  
+            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+            data = mh.changeAdmin(this);
+        }
+        
+        return data;
+    	
     }
     
     /**

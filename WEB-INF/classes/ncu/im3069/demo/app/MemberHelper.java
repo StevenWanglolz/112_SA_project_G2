@@ -460,11 +460,13 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `mydb`.`member` SET `name` = ? ,`hash_pwd` = ? , `modified` = ? WHERE `member_account` = ?";
+            String sql = "Update `mydb`.`member` SET `name` = ? ,`hash_pwd` = ? ,`member_bio` = ?,`is_admin` = ?, `modified` = ? WHERE `member_account` = ?";
             /** 取得所需之參數 */
             String name = m.getName();
             String member_account = m.getEmail();
             String hash_pwd = m.getPassword();
+            String member_bio = m.getmember_bio();
+ 
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
@@ -505,6 +507,61 @@ public class MemberHelper {
         return response;
     }
     
+    public JSONObject changeAdmin(Member m) {
+        /** 紀錄回傳之資料 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `mydb`.`member` SET `is_admin` = CASE WHEN `is_admin` = 1 THEN 0 ELSE 1 END WHERE `member_id` = ?";
+            /** 取得所需之參數 */
+  
+            int member_id = m.getID();
+            System.out.println("測試");
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+  
+
+            pres.setInt(1, member_id);
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("data", jsa);
+
+        return response;
+    }
     public JSONObject getByEmail(String search_email,String search_password) {
         /** 新建一個 Member 物件之 m 變數，用於紀錄每一位查詢回之會員資料 */
         Member m = null;
