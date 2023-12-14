@@ -75,7 +75,7 @@
                         <th>自介</th>
                         <th>管理員身份</th>
                         <th>大頭照連結</th>
-                        <th></th>
+                        <th>刪除會員</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,10 +120,9 @@
                 dataType: 'json',
                 timeout: 5000,
                 success: function (response) {
-                    alert("成功連線到伺服器！");
+                    // alert("成功連線到伺服器！");
                     if(response.status == 200){
                         updateTable(response.response.data);
-                        // updateSQLTable(response.response);
                     }
                     console.log(response);
                 },
@@ -147,14 +146,17 @@
                 if(value['is_admin']==1 && value['member_id'] == currentId){
                     table_html += '<td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked disabled></div></td>';
                 }else if(value['is_admin']==1){
-                    table_html += '<td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" checked></div></td>';
+                    table_html += '<td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" onclick="changeAdmin(' + value['member_id'] + ')" checked></div></td>';
                 }else{
-                    table_html += '<td><div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"></div></td>';
+                    table_html += '<td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"  onclick="changeAdmin(' + value['member_id'] + ')" role="switch"></div></td>';
                 }
+
                 table_html += '<td>' + value['member_img_path'] + '</td>';
-                // table_html += '<td>' + '<a href="edit.html?id=' + value['id'] + '">編輯</a><td>';
+
                 if(value['member_id'] != currentId){
                     table_html += '<td><a class="btn btn-outline-danger btn-sm" href="javascript: deleteMember(' + value['member_id'] + ');">刪除</a></td></tr>';
+                }else {
+                    table_html += '<td></td></tr>';
                 }
             })
 
@@ -162,6 +164,27 @@
         }
 
         function changeAdmin(member_id) {
+            var request = {'member_id': member_id};
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "PUT",
+                url: "api/member.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                    if(response.status == 200){
+                        alert("成功連線到伺服器");
+                    }
+                    console.log(response);
+                },
+                error: function () {
+                    alert("無法連線到伺服器！");
+                }
+            });
+            getAllMember();
         }
 
         function deleteMember(member_id) {
