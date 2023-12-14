@@ -138,15 +138,17 @@ public class MemberController extends HttpServlet {
         JSONObject jso = jsr.getObject();
         
         /** 取出經解析到JSONObject之Request參數 */
-        int id = jso.getInt("id");
+        int id = jso.getInt("member_id");
+        System.out.println("get id (from test_delete): " + id);
         
         /** 透過MemberHelper物件的deleteByID()方法至資料庫刪除該名會員，回傳之資料為JSONObject物件 */
         JSONObject query = mh.deleteByID(id);
         
         /** 新建一個JSONObject用於將回傳之資料進行封裝 */
         JSONObject resp = new JSONObject();
-        resp.put("status", "200");
         resp.put("message", "會員移除成功！");
+        resp.put("status", "200");
+        
         resp.put("response", query);
 
         /** 透過JsonReader物件回傳到前端（以JSONObject方式） */

@@ -103,7 +103,7 @@ public class MemberHelper {
         JSONObject response = new JSONObject();
         response.put("sql", exexcute_sql);
         response.put("row", row);
-        response.put("time", duration);
+        //response.put("time", duration);
 
         return response;
     }
