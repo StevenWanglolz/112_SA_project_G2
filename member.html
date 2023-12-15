@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁</title>
+    <title>個人主頁</title>
 
     <link href="statics/css/bootstrap.min.css" rel="stylesheet">
     <link href="statics/icons/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -18,29 +18,29 @@
           <button class="navbar-toggler border-0 ps-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand ms-1" aria-current="page" href="index.html">學生資源分享站</a>
+          <a class="navbar-brand ms-1" href="index.html">學生資源分享站</a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav me-auto ms-2 mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">
-                            <i class="bi bi-house-door-fill"></i> 首頁
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-door"></i> 首頁
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="member_page" href="member.html">
-                          <i class="bi bi-person"></i> 個人主頁
+                        <a class="nav-link active" aria-current="page" href="member.html">
+                          <i class="bi bi-person-fill"></i> 個人主頁
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="alert_page" href="#">
+                        <a class="nav-link" href="#">
                             <i class="bi bi-chat"></i> 通知欄
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="admin_page" href="test.html" style="display: none;">
                             <i class="bi bi-database"></i> 連線測試
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- search bar -->
                 <form role="search">
@@ -65,7 +65,7 @@
     
     <main>
   
-    <!-- <section class="py-5 text-center container">
+    <section class="py-5 text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 id="userName" class="fw-light">Album example</h1>
@@ -76,8 +76,10 @@
           </p>
         </div>
       </div>
-    </section> -->
+    </section>
   
+    <hr class="my-4">
+
     <div class="album py-5">
       <div class="container">
   
@@ -237,20 +239,13 @@
                 // 用戶已登入
                 document.getElementById('loginBtn').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'block';
-                if(adminLoggedIn === 'true'){
-                    document.getElementById('member_page').style.display = 'none';
-                    document.getElementById('alert_page').style.display = 'none';
-                    document.getElementById('admin_page').style.display = 'block';
-                }else{
-                    document.getElementById('member_page').style.display = 'block';
-                    document.getElementById('alert_page').style.display = 'block';
-                }
+                // if(adminLoggedIn === 'true'){
+                //     document.getElementById('admin_page').style.display = 'block';
+                // }
             } else {
                 // 用戶未登入
                 document.getElementById('loginBtn').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'none';
-                document.getElementById('member_page').style.display = 'none';
-                document.getElementById('alert_page').style.display = 'none';
             }
         }
     </script>
