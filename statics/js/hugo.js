@@ -34,6 +34,6 @@ function logout() {
 
     window.alert('登出成功！');
 
-    // 刷新頁面
-    location.reload();
+    // 跳轉首頁
+    window.location.href = "/NCU_MIS_SA/index.html";
 }

@@ -65,21 +65,48 @@
     
     <main>
   
-    <section class="py-5 text-center container">
-      <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 id="userName" class="fw-light">Album example</h1>
-          <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-          </p>
+    <!-- member info -->
+    <section class="py-5 container">
+        <!-- <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 id="userName" class="fw-light">Album example</h1>
+                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+                <p>
+                    <a href="#" class="btn btn-primary my-2">Main call to action</a>
+                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                </p>
+            </div>
+        </div> -->
+        <div class="row align-items-center">
+          <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
+            <div class="card border-0" style="max-width: 150px;">
+              <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
+              <div class="card-body text-center">
+                <h5 class="card-title">Username</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="card border-0">
+              <div class="card-body">
+                <h6 class="card-subtitle">帳號</h6>
+                <p class="card-text text-body-secondary ps-1 ">a</p>
+                <h6 class="card-subtitle">自介</h6>
+                <p class="card-text text-body-secondary ps-1">a</p>
+                <!-- <div class="text-end"> -->
+                  <a href="#" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-pencil-square"></i> 修改個人資訊
+                  </a>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
     </section>
-  
-    <hr class="my-4">
 
+    <hr class="m-4">
+
+    <!-- member files -->
     <div class="album py-5">
       <div class="container">
   
@@ -230,6 +257,7 @@
     <script>
         // 確認登入狀況
         checkLoginStatus();
+        getImage();
 
         function checkLoginStatus() {
             const memberLoggedIn = getCookie('memberLoggedIn');
@@ -246,7 +274,14 @@
                 // 用戶未登入
                 document.getElementById('loginBtn').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'none';
+                alert('未登入會員，將跳轉登入畫面');
+                window.location.href = "/NCU_MIS_SA/login.html";
             }
+        }
+
+        function getImage() {
+          const memberId = getCookie('memberId');
+          document.getElementById('member_img').src = "img/"+memberId+".png";
         }
     </script>
 
