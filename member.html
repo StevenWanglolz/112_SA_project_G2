@@ -67,48 +67,114 @@
   
     <!-- member info -->
     <section class="py-5 container">
-        <!-- <div class="row py-lg-5">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 id="userName" class="fw-light">Album example</h1>
-                <p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-                <p>
-                    <a href="#" class="btn btn-primary my-2">Main call to action</a>
-                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                </p>
-            </div>
-        </div> -->
-        <div class="row align-items-center">
-          <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
-            <div class="card border-0" style="max-width: 150px;">
-              <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
-              <div class="card-body text-center">
-                <h5 class="card-title">Username</h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-9">
-            <div class="card border-0">
-              <div class="card-body">
-                <h6 class="card-subtitle">帳號</h6>
-                <p class="card-text text-body-secondary ps-1 ">a</p>
-                <h6 class="card-subtitle">自介</h6>
-                <p class="card-text text-body-secondary ps-1">a</p>
-                <!-- <div class="text-end"> -->
-                  <a href="#" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-pencil-square"></i> 修改個人資訊
-                  </a>
-                <!-- </div> -->
-              </div>
+      <h5 class="mb-5">會員資訊</h5>
+      <div class="row align-items-center">
+        <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
+          <div class="card border-0" style="max-width: 150px;">
+            <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
+            <div class="card-body text-center">
+              <h5 class="card-title">Username</h5>
             </div>
           </div>
         </div>
+        <div class="col-lg-5">
+          <div class="card border-0">
+            <div class="card-body">
+              <h6 class="card-subtitle">帳號</h6>
+              <p class="card-text text-body-secondary ps-1 ">a</p>
+              <h6 class="card-subtitle">自介</h6>
+              <p class="card-text text-body-secondary ps-1">a</p>
+
+              <!-- Button trigger modal -->
+              <a type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bio_edit">
+                <i class="bi bi-pencil-square"></i> 修改個人資訊
+              </a>
+              <a type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#password_edit">
+                <i class="bi bi-key"></i> 修改密碼
+              </a>
+
+              <!-- Bio Edit Modal -->
+              <div class="modal fade" id="bio_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >修改個人資訊</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pb-0">
+                      <form class="row g-2" onsubmit="editMemberInfo()">
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="text" class="form-control rounded-3" id="username"  placeholder="Username" value="Username" required>
+                            <label for="floatingInput">使用者名稱</label>
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="text" class="form-control rounded-3" id="account" placeholder="Account" value="a" required>
+                            <label for="floatingInput">帳號</label>
+                        </div>
+                        <div class="form-floating mb-3 col-12">
+                            <textarea class="form-control rounded-3" id="bio" placeholder="Bio" style="height: 140px">a</textarea>
+                            <label for="floatingInput">自介</label>
+                        </div>
+                      </form>
+
+                    </div>
+                    <div class="modal-footer border-top-0 mb-2 pt-0">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="button" class="btn btn-primary">確認修改</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Password Edit Modal -->
+              <div class="modal fade" id="password_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >修改個人資訊</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pb-0">
+                      
+                      <form class="row g-2" onsubmit="editMemberInfo()">
+                        <div class="form-floating col-12">
+                            <input type="text" class="form-control rounded-3" placeholder="OldPassword" required>
+                            <label for="floatingInput">現在的密碼</label>
+                        </div>
+                        <div class="col-12 text-center">
+                          <i class="bi bi-arrow-down"></i>
+                        </div>
+                        <div class="form-floating mb-2 col-12">
+                            <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
+                            <label for="floatingInput">要改成的密碼</label>
+                        </div>
+                        <div class="form-floating mb-3 col-12">
+                          <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
+                          <label for="floatingInput">再次輸入密碼</label>
+                        </div>
+                      </form>
+
+                    </div>
+                    <div class="modal-footer border-top-0 mb-2 pt-0">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="button" class="btn btn-primary">確認修改</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <hr class="m-4">
+    <!-- <hr class="m-4"> -->
 
     <!-- member files -->
-    <div class="album py-5">
+    <div class="album pb-5">
       <div class="container">
+        <h5 class="mb-5">上傳資料</h5>
   
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div class="col">
@@ -283,6 +349,10 @@
           const memberId = getCookie('memberId');
           document.getElementById('member_img').src = "img/"+memberId+".png";
         }
+
+				function editMemberInfo(){
+
+				}
     </script>
 
 </body>
