@@ -73,7 +73,7 @@
           <div class="card border-0" style="max-width: 150px;">
             <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
             <div class="card-body text-center">
-              <h5 class="card-title" id="username">Username</h5>
+              <h5 class="card-title" id="username"></h5>
             </div>
           </div>
         </div>
@@ -81,23 +81,23 @@
           <div class="card border-0">
             <div class="card-body">
               <h6 class="card-subtitle">帳號</h6>
-              <p class="card-text text-body-secondary ps-1 " id="account">account</p>
+              <p class="card-text text-body-secondary ps-1 " id="account"></p>
               <h6 class="card-subtitle">自介</h6>
-              <p class="card-text text-body-secondary ps-1" id="bio">bio</p>
+              <p class="card-text text-body-secondary ps-1" id="bio"></p>
 
               <!-- Button trigger modal -->
               <a type="button" class="btn btn-sm btn-outline-dark my-1" href="test.html">
                 <i class="bi bi-person-circle"></i> 更改大頭照
               </a>
-              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#bio_edit">
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#info_edit">
                 <i class="bi bi-pencil-square"></i> 修改個人資訊
               </a>
               <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#password_edit">
                 <i class="bi bi-key"></i> 修改密碼
               </a>
 
-              <!-- Bio Edit Modal -->
-              <div class="modal fade" id="bio_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <!-- Info Edit Modal -->
+              <div class="modal fade" id="info_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header border-bottom-0">
@@ -106,15 +106,15 @@
                     <div class="modal-body">
                       <form class="row g-2" onsubmit="editMemberInfo()">
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control rounded-3" id="username_edit"  placeholder="Username" value="Username" required>
+                            <input type="text" class="form-control rounded-3" id="username_edit"  placeholder="Username" value="" required>
                             <label for="floatingInput">使用者名稱</label>
                         </div>
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control rounded-3" id="account_edit" placeholder="Account" value="a" required>
+                            <input type="text" class="form-control rounded-3" id="account_edit" placeholder="Account" value="" required>
                             <label for="floatingInput">帳號</label>
                         </div>
                         <div class="form-floating mb-3 col-12">
-                            <textarea class="form-control rounded-3" id="bio_edit" placeholder="Bio" style="height: 140px">a</textarea>
+                            <textarea class="form-control rounded-3" id="bio_edit" placeholder="Bio" value="" style="height: 140px"></textarea>
                             <label for="floatingInput">自介</label>
                         </div>
                         <div class="flex text-end">
@@ -137,19 +137,19 @@
                     <div class="modal-body">
                       <form class="row g-2" onsubmit="editPassword()">
                         <div class="form-floating col-12">
-                          <input type="text" class="form-control rounded-3" placeholder="OldPassword" required>
+                          <input type="password" class="form-control rounded-3" id="old_password" placeholder="OldPassword" required>
                           <label for="floatingInput">現在的密碼</label>
                         </div>
                         <div class="col-12 text-center">
                           <h4><i class="bi bi-arrow-down"></i></h4>
                         </div>
                         <div class="form-floating mb-2 col-12">
-                          <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
-                          <label for="floatingInput">要改成的密碼</label>
+                          <input type="password" class="form-control rounded-3" id="new_password1" placeholder="NewPassword" required>
+                          <label for="floatingInput">新密碼</label>
                         </div>
                         <div class="form-floating mb-3 col-12">
-                          <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
-                          <label for="floatingInput">再次輸入密碼</label>
+                          <input type="password" class="form-control rounded-3" id="new_password2" placeholder="NewPassword" required>
+                          <label for="floatingInput">再次輸入新密碼</label>
                         </div>
                         <div class="flex text-end">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -323,7 +323,6 @@
         // 確認登入狀況
         checkLoginStatus();
         getMemberData();
-        getImage();
 
         function checkLoginStatus() {
             const memberLoggedIn = getCookie('memberLoggedIn');
@@ -348,7 +347,7 @@
         function getMemberData() {
           var id = getCookie('memberId');
           var member_id = parseInt(id);
-          console.log(typeof member_id);
+          // console.log(typeof member_id);
           var data_object = {"member_id": member_id};
           //var data_string = JSON.stringify(data_object);
 
@@ -358,39 +357,105 @@
             data: data_object,
             crossDomain: true,
             cache: false,
-            //dataType: 'json',
+            dataType: 'json',
             timeout: 5000,
             success: function (response) {
-                // alert("成功連線到伺服器！");
-                if(response.status == 200){
-                    updateBio(response.response.data);
-                }
-                console.log(response);
+              // alert("成功連線到伺服器！");
+              if(response.status == 200){
+                updateInfo(response.response.data);
+              }
+              console.log(response);
             },
             error: function () {
-                alert("無法連線到伺服器！");
+              alert("無法連線到伺服器！");
             }
           });
         }
 
-        function updateBio(data) {
-          var username = document.getElementById("username").textContent;
-          var account = document.getElementById("account").textContent;
-          var bio = document.getElementById("bio").textContent;
-
-          username = data[0]['member_name'];
-          account = data[0]['member_account'];
-          bio = data[0]['member_bio'];
+        function updateInfo(data) {
+          document.getElementById("username").textContent = data[0]['member_name'];
+          document.getElementById("account").textContent = data[0]['member_account'];
+          document.getElementById("bio").textContent = data[0]['member_bio'];
+          document.getElementById("username_edit").value = data[0]['member_name'];
+          document.getElementById("account_edit").value = data[0]['member_account'];
+          document.getElementById("bio_edit").textContent = data[0]['member_bio'];
         }
 
-        function getImage() {
-          const memberId = getCookie('memberId');
-          document.getElementById('member_img').src = "img/"+memberId+".png";
+        function editMemberInfo(){
+          event.preventDefault();
+          var username = document.getElementById('username_edit').value;
+          var account = document.getElementById('account_edit').value;
+          var bio = document.getElementById('bio_edit').textContent;
+
+          var request = {
+            'action':"chInfo",
+            'member_name': username,
+            'member_account': account,
+            'member_bio': bio
+          };
+
+          var data_string = JSON.stringify(request);
+
+          $.ajax({
+              type: "PUT",
+              url: "api/member.do",
+              crossDomain: true,
+              data: data_string,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                if(response.status == 200){
+                  alert("成功更改會員資訊");
+                }
+                console.log(response);
+              },
+              error: function () {
+                alert("無法連線到伺服器！");
+              }
+          });
+          location.reload();
+
         }
 
-				function editMemberInfo(){
+        function editPassword() {
+          event.preventDefault();
+          var old_password = document.getElementById('old_password').value;
+          var new_password1 = document.getElementById('new_password1').value;
+          var new_password2 = document.getElementById('new_password2').value;
 
-				}
+          if(new_password2 != new_password1){
+            alert('密碼輸入不一致');
+          }else if(old_password == new_password1){
+            alert('新密碼不能跟現有的一樣！');
+          }else{
+            var request = {'action':"chPassword",'hash_pwd': new_password1};
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "PUT",
+                url: "api/member.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                  if(response.status == 200){
+                    alert("成功更改密碼");
+                  }else if(response.status == 400){
+                    alert('密碼錯誤，請重新輸入');
+                  }
+                  console.log(response);
+                },
+                error: function () {
+                  alert("無法連線到伺服器！");
+                }
+            });
+          }
+          location.reload();
+
+        }
+
     </script>
 
 </body>
