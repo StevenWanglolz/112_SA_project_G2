@@ -13,29 +13,26 @@
 </head>
 <body>
 
-    <form class="m-5" onsubmit="upload()" enctype="multipart/form-data">
+    <form class="m-5" id="upload_img" onsubmit="upload()" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">圖片上傳測試</label>
-            <input class="form-control" type="file" id="img_file">
+            <input class="form-control" type="file">
         </div>
-        <div>
-            <button class="btn btn-outline-dark" type="submit">上傳</button>
-        </div>
+        <button class="btn btn-outline-dark" type="submit">上傳</button>
     </form>
 
     <script>
-        document.querySelector('form').addEventListener('submit', upload);
-
         function upload() {
+            console.log('Upload function called');
             event.preventDefault();
-            var form = document.getElementById('img_file');
-            var formData = new FormData(form);
+            var formData = new FormData(document.getElementById('upload_img'));
 
             $.ajax({
                 type: "POST",
                 url: "api/upload.do",
                 data: formData,
-                crossDomain: true,
+                contentType: false,
+                processData: false,
                 cache: false,
                 timeout: 5000,
                 success: function (response) {
