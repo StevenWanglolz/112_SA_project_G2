@@ -73,7 +73,7 @@
           <div class="card border-0" style="max-width: 150px;">
             <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
             <div class="card-body text-center">
-              <h5 class="card-title">Username</h5>
+              <h5 class="card-title" id="username">Username</h5>
             </div>
           </div>
         </div>
@@ -81,9 +81,9 @@
           <div class="card border-0">
             <div class="card-body">
               <h6 class="card-subtitle">帳號</h6>
-              <p class="card-text text-body-secondary ps-1 ">a</p>
+              <p class="card-text text-body-secondary ps-1 " id="account">account</p>
               <h6 class="card-subtitle">自介</h6>
-              <p class="card-text text-body-secondary ps-1">a</p>
+              <p class="card-text text-body-secondary ps-1" id="bio">bio</p>
 
               <!-- Button trigger modal -->
               <a type="button" class="btn btn-sm btn-outline-dark my-1" href="test.html">
@@ -104,27 +104,25 @@
                       <h1 class="modal-title fs-5" >修改個人資訊</h1>
                       <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
-                    <div class="modal-body pb-0">
+                    <div class="modal-body">
                       <form class="row g-2" onsubmit="editMemberInfo()">
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control rounded-3" id="username"  placeholder="Username" value="Username" required>
+                            <input type="text" class="form-control rounded-3" id="username_edit"  placeholder="Username" value="Username" required>
                             <label for="floatingInput">使用者名稱</label>
                         </div>
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control rounded-3" id="account" placeholder="Account" value="a" required>
+                            <input type="text" class="form-control rounded-3" id="account_edit" placeholder="Account" value="a" required>
                             <label for="floatingInput">帳號</label>
                         </div>
                         <div class="form-floating mb-3 col-12">
-                            <textarea class="form-control rounded-3" id="bio" placeholder="Bio" style="height: 140px">a</textarea>
+                            <textarea class="form-control rounded-3" id="bio_edit" placeholder="Bio" style="height: 140px">a</textarea>
                             <label for="floatingInput">自介</label>
                         </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認修改</button>
+                        </div>
                       </form>
-
-                    </div>
-                    <div class="modal-footer border-top-0 mb-2 pt-0">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                      <button type="button" class="btn btn-primary">確認修改</button>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -326,6 +324,7 @@
     <script>
         // 確認登入狀況
         checkLoginStatus();
+        getMemberData()
         getImage();
 
         function checkLoginStatus() {
@@ -346,6 +345,42 @@
                 alert('未登入會員，將跳轉登入畫面');
                 window.location.href = "/NCU_MIS_SA/login.html";
             }
+        }
+
+        function getMemberData() {
+          var member_id = getCookie('memberId');
+          var data_object = {"member_id": member_id};
+          var data_string = JSON.stringify(data_object);
+
+          $.ajax({
+              type: "GET",
+              url: "api/member.do",
+              data: data_string,
+              crossDomain: true,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                  // alert("成功連線到伺服器！");
+                  if(response.status == 200){
+                      updateBio(response.response.data);
+                  }
+                  console.log(response);
+              },
+              error: function () {
+                  alert("無法連線到伺服器！");
+              }
+          });
+        }
+
+        function updateBio(data) {
+          var username = document.getElementById("username").textContent;
+          var account = document.getElementById("account").textContent;
+          var bio = document.getElementById("bio").textContent;
+
+          username = data[0]['member_name'];
+          account = data[0]['member_account'];
+          bio = data[0]['member_bio'];
         }
 
         function getImage() {
