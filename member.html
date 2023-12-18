@@ -102,7 +102,6 @@
                   <div class="modal-content">
                     <div class="modal-header border-bottom-0">
                       <h1 class="modal-title fs-5" >修改個人資訊</h1>
-                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body">
                       <form class="row g-2" onsubmit="editMemberInfo()">
@@ -123,6 +122,7 @@
                           <button type="submit" class="btn btn-primary">確認修改</button>
                         </div>
                       </form>
+                    </div> 
                   </div>
                 </div>
               </div>
@@ -133,36 +133,34 @@
                   <div class="modal-content">
                     <div class="modal-header border-bottom-0">
                       <h1 class="modal-title fs-5" >修改密碼</h1>
-                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
-                    <div class="modal-body pb-0">
-                      
-                      <form class="row g-2" onsubmit="editMemberInfo()">
+                    <div class="modal-body">
+                      <form class="row g-2" onsubmit="editPassword()">
                         <div class="form-floating col-12">
-                            <input type="text" class="form-control rounded-3" placeholder="OldPassword" required>
-                            <label for="floatingInput">現在的密碼</label>
+                          <input type="text" class="form-control rounded-3" placeholder="OldPassword" required>
+                          <label for="floatingInput">現在的密碼</label>
                         </div>
                         <div class="col-12 text-center">
                           <h4><i class="bi bi-arrow-down"></i></h4>
                         </div>
                         <div class="form-floating mb-2 col-12">
-                            <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
-                            <label for="floatingInput">要改成的密碼</label>
+                          <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
+                          <label for="floatingInput">要改成的密碼</label>
                         </div>
                         <div class="form-floating mb-3 col-12">
                           <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
                           <label for="floatingInput">再次輸入密碼</label>
                         </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認修改</button>
+                        </div>
                       </form>
-
-                    </div>
-                    <div class="modal-footer border-top-0 mb-2 pt-0">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                      <button type="button" class="btn btn-primary">確認修改</button>
-                    </div>
+                    </div>  
                   </div>
                 </div>
               </div>
+
 
             </div>
           </div>
@@ -324,7 +322,7 @@
     <script>
         // 確認登入狀況
         checkLoginStatus();
-        getMemberData()
+        getMemberData();
         getImage();
 
         function checkLoginStatus() {
@@ -348,28 +346,30 @@
         }
 
         function getMemberData() {
-          var member_id = getCookie('memberId');
+          var id = getCookie('memberId');
+          var member_id = parseInt(id);
+          console.log(typeof member_id);
           var data_object = {"member_id": member_id};
           var data_string = JSON.stringify(data_object);
 
           $.ajax({
-              type: "GET",
-              url: "api/member.do",
-              data: data_string,
-              crossDomain: true,
-              cache: false,
-              dataType: 'json',
-              timeout: 5000,
-              success: function (response) {
-                  // alert("成功連線到伺服器！");
-                  if(response.status == 200){
-                      updateBio(response.response.data);
-                  }
-                  console.log(response);
-              },
-              error: function () {
-                  alert("無法連線到伺服器！");
-              }
+            type: "GET",
+            url: "api/member.do",
+            data: data_string,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+                // alert("成功連線到伺服器！");
+                if(response.status == 200){
+                    updateBio(response.response.data);
+                }
+                console.log(response);
+            },
+            error: function () {
+                alert("無法連線到伺服器！");
+            }
           });
         }
 
