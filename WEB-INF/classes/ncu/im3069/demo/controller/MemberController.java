@@ -92,12 +92,16 @@ public class MemberController extends HttpServlet {
     	System.out.println("membercontroller/doget");
         /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
         JsonReader jsr = new JsonReader(request);
-    	String id = request.getParameter("member_id");
+        
+        //String id = jsr.getParameter("id");
+        String id = request.getParameter("member_id");
+        System.out.println("jsr.getparameter id: " + id);
+    	
         /** 若直接透過前端AJAX之data以key=value之字串方式進行傳遞參數，可以直接由此方法取回資料 */
         //int id = -1;
         //id = jso.getInt("member_id");
         /** 判斷該字串是否存在，若存在代表要取回個別會員之資料，否則代表要取回全部資料庫內會員之資料 */
-        if (id.isEmpty()) {
+        if (id==null) {
         	System.out.println("func: get all member");
             /** 透過MemberHelper物件之getAll()方法取回所有會員之資料，回傳之資料為JSONObject物件 */
             JSONObject query = mh.getAll();
