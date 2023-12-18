@@ -117,7 +117,7 @@ public class MemberController extends HttpServlet {
             resp.put("status", "200");
             resp.put("message", "會員資料取得成功");
             resp.put("response", query);
-    
+            System.out.println("mctrller do get response:" + resp);
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
             jsr.response(resp, response);
         }
@@ -238,9 +238,10 @@ public class MemberController extends HttpServlet {
             String member_name = jso.getString("member_name");
             String member_bio = jso.getString("member_bio");
             int is_admin = jso.getInt("is_admin");
+            String member_img_path = jso.getString("member_img_path");
 
             /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-            Member m = new Member(id, member_account, hash_pwd, member_name,member_bio,is_admin);
+            Member m = new Member(id, member_account, hash_pwd, member_name,member_bio,is_admin, member_img_path);
             
             /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
             JSONObject data = m.changeAdmin();

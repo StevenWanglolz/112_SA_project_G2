@@ -35,6 +35,9 @@ public class Member {
     /** status，會員之組別 */
     private int is_admin;
     
+    /** member_bio，會員大頭貼 */
+    private String member_img_path;;
+    
     /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
     private MemberHelper mh =  MemberHelper.getHelper();
     
@@ -47,11 +50,13 @@ public class Member {
      * @param member_name 會員姓名
      * @param is_admin 會員身分
      */
-    public Member(String member_account, String hash_pwd, String member_name, int is_admin) {
+    public Member(String member_account, String hash_pwd, String member_name, int is_admin, String member_bio, String member_img_path) {
         this.member_account = member_account;
         this.hash_pwd = hash_pwd;
         this.member_name = member_name;
         this.is_admin = is_admin;
+        this.member_bio = member_bio;
+        this.member_img_path = member_img_path;
         update();
     }
 
@@ -85,13 +90,14 @@ public class Member {
      * @param member_bio 會員自我介紹
      * @param is_admin 會員之身分
      */
-    public Member(int id, String member_account, String hash_pwd, String member_name, String member_bio, int is_admin) {
+    public Member(int id, String member_account, String hash_pwd, String member_name, String member_bio, int is_admin, String member_img_path) {
         this.member_id = id;
         this.member_account = member_account;
         this.hash_pwd = hash_pwd;
         this.member_name = member_name;
         this.member_bio = member_bio;
         this.is_admin = is_admin;
+        this.member_img_path = member_img_path;
     }
     
     public Member(int id) {
@@ -152,6 +158,11 @@ public class Member {
         return this.is_admin;
     }
     
+    public String getmember_img_path() {
+        return this.member_img_path;
+    }
+    
+    
     /**
      * 更新會員資料
      *
@@ -206,6 +217,7 @@ public class Member {
         //jso.put("hash_pwd", getPassword());
         jso.put("member_bio", getmember_bio());
         jso.put("is_admin", getis_admin());
+        jso.put("member_img_path", getmember_img_path());
         
         return jso;
     }

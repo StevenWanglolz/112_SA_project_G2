@@ -54,7 +54,7 @@ public class RegisterController extends HttpServlet {
 	     else {
 	    	 
 	    	 
-	    	 Member m = new Member(member_account, hash_pwd,member_name,0);
+	    	 Member m = new Member(member_account, hash_pwd,member_name,0, "nothing","pathpath");
 	    	 if(!mh.checkDuplicate(m)) {
 	    		  
 	    		 JSONObject data = mh.create(m);
