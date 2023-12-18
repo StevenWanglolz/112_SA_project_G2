@@ -213,7 +213,7 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "SELECT * FROM `mydb`.`member` WHERE `id` = ? LIMIT 1";
+            String sql = "SELECT * FROM `mydb`.`member` WHERE `member_id` = ? LIMIT 1";
             
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);

@@ -350,15 +350,15 @@
           var member_id = parseInt(id);
           console.log(typeof member_id);
           var data_object = {"member_id": member_id};
-          var data_string = JSON.stringify(data_object);
+          //var data_string = JSON.stringify(data_object);
 
           $.ajax({
             type: "GET",
             url: "api/member.do",
-            data: data_string,
+            data: data_object,
             crossDomain: true,
             cache: false,
-            dataType: 'json',
+            //dataType: 'json',
             timeout: 5000,
             success: function (response) {
                 // alert("成功連線到伺服器！");
