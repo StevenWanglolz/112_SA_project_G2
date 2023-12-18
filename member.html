@@ -66,7 +66,7 @@
     <main>
   
     <!-- member info -->
-    <section class="py-5 container">
+    <section class="pt-5 container">
       <h5 class="mb-5">會員資訊</h5>
       <div class="row align-items-center">
         <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
@@ -86,10 +86,13 @@
               <p class="card-text text-body-secondary ps-1">a</p>
 
               <!-- Button trigger modal -->
-              <a type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bio_edit">
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" href="test.html">
+                <i class="bi bi-person-circle"></i> 更改大頭照
+              </a>
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#bio_edit">
                 <i class="bi bi-pencil-square"></i> 修改個人資訊
               </a>
-              <a type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#password_edit">
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#password_edit">
                 <i class="bi bi-key"></i> 修改密碼
               </a>
 
@@ -99,7 +102,7 @@
                   <div class="modal-content">
                     <div class="modal-header border-bottom-0">
                       <h1 class="modal-title fs-5" >修改個人資訊</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body pb-0">
                       <form class="row g-2" onsubmit="editMemberInfo()">
@@ -131,8 +134,8 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header border-bottom-0">
-                      <h1 class="modal-title fs-5" >修改個人資訊</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <h1 class="modal-title fs-5" >修改密碼</h1>
+                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body pb-0">
                       
@@ -142,7 +145,7 @@
                             <label for="floatingInput">現在的密碼</label>
                         </div>
                         <div class="col-12 text-center">
-                          <i class="bi bi-arrow-down"></i>
+                          <h4><i class="bi bi-arrow-down"></i></h4>
                         </div>
                         <div class="form-floating mb-2 col-12">
                             <input type="password" class="form-control rounded-3" placeholder="NewPassword" required>
@@ -169,14 +172,14 @@
       </div>
     </section>
 
-    <!-- <hr class="m-4"> -->
+    <hr class="m-4">
 
     <!-- member files -->
-    <div class="album pb-5">
+    <div class="album pt-4 pb-5">
       <div class="container">
         <h5 class="mb-5">上傳資料</h5>
   
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
           <div class="col">
             <div class="card shadow-sm">
               <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
