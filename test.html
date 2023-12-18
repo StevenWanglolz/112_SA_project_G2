@@ -13,40 +13,15 @@
 </head>
 <body>
 
-    <form class="m-5" id="upload_img" onsubmit="upload()" enctype="multipart/form-data">
+    <form action="api/upload.do" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">圖片上傳測試</label>
-            <input class="form-control" type="file">
+            <input  type="file" name = "file" multiple/>
         </div>
-        <button class="btn btn-outline-dark" type="submit">上傳</button>
+        <input type="submit">
     </form>
 
-    <script>
-        function upload() {
-            console.log('Upload function called');
-            event.preventDefault();
-            var formData = new FormData(document.getElementById('upload_img'));
 
-            $.ajax({
-                type: "POST",
-                url: "api/upload.do",
-                data: formData,
-                contentType: false,
-                processData: false,
-                cache: false,
-                timeout: 5000,
-                success: function (response) {
-                    if(response.status == 200){
-                        alert('上傳成功');
-                    }
-                },
-                error: function () {
-                    alert("無法連線到伺服器！");
-                }
-            });
-
-        }
-    </script>
     
 </body>
 </html>
