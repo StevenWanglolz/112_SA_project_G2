@@ -383,12 +383,14 @@
 
         function editMemberInfo(){
           event.preventDefault();
+          var member_id = getCookie('memberId');
           var username = document.getElementById('username_edit').value;
           var account = document.getElementById('account_edit').value;
           var bio = document.getElementById('bio_edit').textContent;
 
           var request = {
             'action':"chInfo",
+            'member_id': member_id,
             'member_name': username,
             'member_account': account,
             'member_bio': bio
@@ -420,6 +422,7 @@
 
         function editPassword() {
           event.preventDefault();
+          var member_id = getCookie('memberId');
           var old_password = document.getElementById('old_password').value;
           var new_password1 = document.getElementById('new_password1').value;
           var new_password2 = document.getElementById('new_password2').value;
@@ -431,6 +434,7 @@
           }else{
             var request = {
               'action':"chPassword",
+              'member_id': member_id,
               'old_pwd': old_password,
               'hash_pwd': new_password1
             };
