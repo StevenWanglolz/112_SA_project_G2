@@ -70,8 +70,8 @@
       <h5 class="mb-5">會員資訊</h5>
       <div class="row align-items-center">
         <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
-          <div class="card border-0" style="max-width: 150px;">
-            <img src="" id="member_img" class="card-img-top rounded-circle img-thumbnail" alt="...">
+          <div class="card border-0" style="width: 140px;">
+            <img src="" id="member_img" class="card-img-top rounded-circle object-fit-cover img-thumbnail" style="width: 140px; height: 140px;" alt="...">
             <div class="card-body text-center">
               <h5 class="card-title" id="username"></h5>
             </div>
@@ -105,14 +105,14 @@
                     </div>
                     <div class="modal-body">
                       <form class="row g-2" onsubmit="editMemberInfo()">
-                        <div class="form-floating mb-3 col-md-6">
+                        <div class="form-floating mb-3 col-12">
                             <input type="text" class="form-control rounded-3" id="username_edit"  placeholder="Username" value="" required>
                             <label for="floatingInput">使用者名稱</label>
                         </div>
-                        <div class="form-floating mb-3 col-md-6">
+                        <!-- <div class="form-floating mb-3 col-md-6">
                             <input type="text" class="form-control rounded-3" id="account_edit" placeholder="Account" value="" required>
                             <label for="floatingInput">帳號</label>
-                        </div>
+                        </div> -->
                         <div class="form-floating mb-3 col-12">
                             <textarea class="form-control rounded-3" id="bio_edit" placeholder="Bio" value="" style="height: 140px"></textarea>
                             <label for="floatingInput">自介</label>
@@ -373,27 +373,28 @@
         }
 
         function updateInfo(data) {
+          document.getElementById("member_img").src = data[0]['member_img_path'];
           document.getElementById("username").textContent = data[0]['member_name'];
           document.getElementById("account").textContent = data[0]['member_account'];
           document.getElementById("bio").textContent = data[0]['member_bio'];
           document.getElementById("username_edit").value = data[0]['member_name'];
-          document.getElementById("account_edit").value = data[0]['member_account'];
+          // document.getElementById("account_edit").value = data[0]['member_account'];
           document.getElementById("bio_edit").textContent = data[0]['member_bio'];
-          console.log(document.getElementById("bio_edit").textContent);
         }
 
         function editMemberInfo(){
           event.preventDefault();
           var member_id = getCookie('memberId');
           var username = document.getElementById('username_edit').value;
-          var account = document.getElementById('account_edit').value;
-          var bio = document.getElementById('bio_edit').textContent;
+          // var account = document.getElementById('account_edit').value;
+          var bio = $("#bio_edit").val(); 
+          // console.log(bio);
 
           var request = {
             'action':"chInfo",
             'member_id': member_id,
             'member_name': username,
-            'member_account': account,
+            // 'member_account': account,
             'member_bio': bio
           };
 
