@@ -583,20 +583,18 @@ public class MemberHelper {
             /** 取得資料庫之連線 */
             conn = DBMgr.getConnection();
             /** SQL指令 */
-            String sql = "Update `mydb`.`member` SET `member_account` = ? ,`member_name` = ? ,`member_bio` = ? WHERE `member_id` = ?";
+            String sql = "Update `mydb`.`member` SET `member_name` = ? ,`member_bio` = ? WHERE `member_id` = ?";
             /** 取得所需之參數 */
   
             int member_id = m.getID();
-            String member_account = m.getEmail();
             String member_name = m.getName();
             String member_bio = m.getmember_bio();
             /** 將參數回填至SQL指令當中 */
             pres = conn.prepareStatement(sql);
             
-            pres.setString(1, member_account);
-            pres.setString(2, member_name);
-            pres.setString(3,member_bio);
-            pres.setInt(4, member_id);
+            pres.setString(1, member_name);
+            pres.setString(2,member_bio);
+            pres.setInt(3, member_id);
             
             /** 執行更新之SQL指令並記錄影響之行數 */
             row = pres.executeUpdate();
@@ -629,6 +627,66 @@ public class MemberHelper {
 
         return response;
     }
+    
+    public JSONObject changePwd(Member m) {
+        /** 紀錄回傳之資料 */
+        JSONArray jsa = new JSONArray();
+        /** 記錄實際執行之SQL指令 */
+        String exexcute_sql = "";
+        /** 紀錄程式開始執行時間 */
+        long start_time = System.nanoTime();
+        /** 紀錄SQL總行數 */
+        int row = 0;
+        
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "Update `mydb`.`member` SET `hash_pwd` = ?  WHERE `member_id` = ?";
+            /** 取得所需之參數 */
+  
+            int member_id = m.getID();
+            String hash_pwd= m.getPassword();
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            
+            pres.setString(1, hash_pwd);
+            pres.setInt(2,member_id);
+
+            
+            /** 執行更新之SQL指令並記錄影響之行數 */
+            row = pres.executeUpdate();
+
+            /** 紀錄真實執行的SQL指令，並印出 **/
+            exexcute_sql = pres.toString();
+            System.out.println(exexcute_sql);
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(pres, conn);
+        }
+        
+        /** 紀錄程式結束執行時間 */
+        long end_time = System.nanoTime();
+        /** 紀錄程式執行時間 */
+        long duration = (end_time - start_time);
+        
+        /** 將SQL指令、花費時間與影響行數，封裝成JSONObject回傳 */
+        JSONObject response = new JSONObject();
+        response.put("sql", exexcute_sql);
+        response.put("row", row);
+        response.put("data", jsa);
+
+        return response;
+    }
+    
     
     public JSONObject getByEmail(String search_email,String search_password) {
         /** 新建一個 Member 物件之 m 變數，用於紀錄每一位查詢回之會員資料 */
@@ -753,5 +811,50 @@ public class MemberHelper {
         return (row==1) ? true : false;
         
     }
+    
+    public boolean checkPwd(int id, String old_pwd ) {
+    	
+
+        /** 儲存JDBC檢索資料庫後回傳之結果，以 pointer 方式移動到下一筆資料 */
+        ResultSet rs = null;
+        boolean checkResult = false  ;
+        try {
+            /** 取得資料庫之連線 */
+            conn = DBMgr.getConnection();
+            /** SQL指令 */
+            String sql = "SELECT * FROM `mydb`.`member` WHERE `member_id` = ?";
+            
+            /** 取得所需之參數 */
+            int member_id = id;
+            
+            /** 將參數回填至SQL指令當中 */
+            pres = conn.prepareStatement(sql);
+            pres.setInt(1, member_id);
+            
+            /** 執行查詢之SQL指令並記錄其回傳之資料 */
+            rs = pres.executeQuery();
+            rs.next();
+            
+            System.out.println("測試密碼: " + rs.getString("hash_pwd"));
+            if(rs.getString("hash_pwd").equals(old_pwd)) {
+            	checkResult = true;
+            }else {
+            	checkResult = false;
+            }
+            
+
+        } catch (SQLException e) {
+            /** 印出JDBC SQL指令錯誤 **/
+            System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            /** 若錯誤則印出錯誤訊息 */
+            e.printStackTrace();
+        } finally {
+            /** 關閉連線並釋放所有資料庫相關之資源 **/
+            DBMgr.close(rs, pres, conn);
+        }
+        return (checkResult) ? true : false;
+    }
+    
     
 }

@@ -207,11 +207,10 @@ public class MemberController extends HttpServlet {
         	/** 取出經解析到JSONObject之Request參數 */
         	int member_id = Integer.parseInt(jso.getString("member_id"));
             String member_name = jso.getString("member_name");
-            String member_account = jso.getString("member_account");
             String member_bio = jso.getString("member_bio");
             
             /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-            Member m = new Member(member_id, member_account, "",  member_name,member_bio);
+            Member m = new Member(member_id, "", "",  member_name,member_bio);
         	
             /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
             JSONObject data = m.changeInfo();
@@ -224,7 +223,45 @@ public class MemberController extends HttpServlet {
             
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
             jsr.response(resp, response);
+        //會員更改密碼
+        }else if("chPassword".equals(jso.getString("action"))) {
+        	
+        	/** 取出經解析到JSONObject之Request參數 */
+        	int member_id = Integer.parseInt(jso.getString("member_id"));
+            String old_pwd = jso.getString("old_pwd");
+            String new_pwd = jso.getString("hash_pwd");
+            
+            boolean checkPwd = mh.checkPwd(member_id,old_pwd);
+            
+            if(checkPwd) {
+            	/** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
+                Member m = new Member(member_id, "", new_pwd,"","");
+            	
+                /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
+                JSONObject data = m.changePwd();
+                
+                /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+                JSONObject resp = new JSONObject();
+                resp.put("status", "200");
+                resp.put("message", "成功更改密碼");
+                resp.put("response", data);
+                
+                /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+                jsr.response(resp, response);
+            }else {
+            	
+            	/** 新建一個JSONObject用於將回傳之資料進行封裝 */
+                JSONObject resp = new JSONObject();
+                resp.put("status", "400");
+                resp.put("message", "舊密碼不符");
+                
+                /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+                jsr.response(resp, response);
+            }
+            
+            
         }
+        
         
         
         else {

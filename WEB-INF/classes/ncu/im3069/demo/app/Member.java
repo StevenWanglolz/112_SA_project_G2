@@ -41,6 +41,9 @@ public class Member {
     /** mh，MemberHelper之物件與Member相關之資料庫方法（Sigleton） */
     private MemberHelper mh =  MemberHelper.getHelper();
     
+    
+
+    
     /**
      * 實例化（Instantiates）一個新的（new）Member物件<br>
      * 採用多載（overload）方法進行，此建構子用於建立會員資料時，產生一名新的會員
@@ -78,6 +81,7 @@ public class Member {
         this.member_bio = member_bio;
  
     }
+    
     
     /**
      * 實例化（Instantiates）一個新的（new）Member物件<br>
@@ -226,6 +230,27 @@ public class Member {
         
         return data;
     }
+    
+    /**
+     * 更改該名會員密碼
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject changePwd() {
+    	JSONObject data = new JSONObject();
+    	
+    	/** 檢查該名會員是否已經在資料庫 */
+        if(this.member_id != 0) {
+            /** 若有則將其身分更改至資料庫中 */
+  
+            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+            data = mh.changePwd(this);
+        }
+        
+        return data;
+    	
+    }
+    
     /**
      * 取得該名會員所有資料
      *
