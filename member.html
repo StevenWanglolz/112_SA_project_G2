@@ -429,7 +429,11 @@
           }else if(old_password == new_password1){
             alert('新密碼不能跟現有的一樣！');
           }else{
-            var request = {'action':"chPassword",'hash_pwd': new_password1};
+            var request = {
+              'action':"chPassword",
+              'old_pwd': old_password,
+              'hash_pwd': new_password1
+            };
             var data_string = JSON.stringify(request);
             $.ajax({
                 type: "PUT",
