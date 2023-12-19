@@ -379,6 +379,7 @@
           document.getElementById("username_edit").value = data[0]['member_name'];
           document.getElementById("account_edit").value = data[0]['member_account'];
           document.getElementById("bio_edit").textContent = data[0]['member_bio'];
+          console.log(document.getElementById("bio_edit").textContent);
         }
 
         function editMemberInfo(){
@@ -413,11 +414,10 @@
                 console.log(response);
               },
               error: function () {
-                alert("無法連線到伺服器！");
+                alert("會員資訊更改失敗");
               }
           });
-          location.reload();
-
+          setTimeout(() => {  location.reload(); }, 600);
         }
 
         function editPassword() {
@@ -456,12 +456,11 @@
                   console.log(response);
                 },
                 error: function () {
-                  alert("無法連線到伺服器！");
+                  alert("密碼更改失敗");
                 }
             });
           }
-          location.reload();
-
+          setTimeout(() => {  location.reload(); }, 600);
         }
 
     </script>
