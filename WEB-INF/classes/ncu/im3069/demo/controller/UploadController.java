@@ -53,11 +53,19 @@ public class UploadController extends HttpServlet {
 			ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
 			List<FileItem> multifiles = sf.parseRequest(request);
 			System.out.println(request);
+			
+			String cla = this.getClass().getClassLoader().getResource(".").getPath();
+			String img_path = cla.replace("/WEB-INF/classes/", "/img/");
+			//System.out.println(cla);
+			
 			for(FileItem item:multifiles) {
-				item.write(new File("112_SA_project_G2\\img\\"+item.getName()));
+				
+				item.write(new File(img_path+item.getName()));
+				System.out.println(img_path+item.getName());
 			}
 			System.out.println("Upload Success!");
 			}catch(Exception ex){
+				System.out.println(ex);
 				System.out.println("Upload fail!");
 			}
 		
