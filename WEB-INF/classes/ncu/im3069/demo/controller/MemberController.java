@@ -180,17 +180,15 @@ public class MemberController extends HttpServlet {
     	
     	System.out.println(jso.getString("action"));
         
+    	//更改會員身分
         if("chAdmin".equals(jso.getString("action"))) {
-        	
-        	
-  
         	
         	/** 取出經解析到JSONObject之Request參數 */
             int id = jso.getInt("member_id");
 
 
             /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-            Member m = new Member(id);
+            Member m = new Member(id,"","","","",-1,"");
             
             /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
             JSONObject data = m.changeAdmin();
@@ -203,8 +201,33 @@ public class MemberController extends HttpServlet {
             
             /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
             jsr.response(resp, response);
+        //更新會員自介、帳號、暱稱	
+        }else if("chInfo".equals(jso.getString("action"))) {
         	
-        }else {
+        	/** 取出經解析到JSONObject之Request參數 */
+        	int member_id = Integer.parseInt(jso.getString("member_id"));
+            String member_name = jso.getString("member_name");
+            String member_account = jso.getString("member_account");
+            String member_bio = jso.getString("member_bio");
+            
+            /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
+            Member m = new Member(member_id, member_account, "",  member_name,member_bio);
+        	
+            /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
+            JSONObject data = m.changeInfo();
+            
+            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+            JSONObject resp = new JSONObject();
+            resp.put("status", "200");
+            resp.put("message", "成功更改資料");
+            resp.put("response", data);
+            
+            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+            jsr.response(resp, response);
+        }
+        
+        
+        else {
   
 
         	/** 取出經解析到JSONObject之Request參數 */
@@ -233,35 +256,35 @@ public class MemberController extends HttpServlet {
         
     }
     
-    public void ChAdmin(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
-            JsonReader jsr = new JsonReader(request);
-            JSONObject jso = jsr.getObject();
-            
-            /** 取出經解析到JSONObject之Request參數 */
-            int id = jso.getInt("member_id");
-            String member_account = jso.getString("member_account");
-            String hash_pwd = jso.getString("hash_pwd");
-            String member_name = jso.getString("member_name");
-            String member_bio = jso.getString("member_bio");
-            int is_admin = jso.getInt("is_admin");
-            String member_img_path = jso.getString("member_img_path");
-
-            /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
-            Member m = new Member(id, member_account, hash_pwd, member_name,member_bio,is_admin, member_img_path);
-            
-            /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
-            JSONObject data = m.changeAdmin();
-            
-            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
-            JSONObject resp = new JSONObject();
-            resp.put("status", "200");
-            resp.put("message", "成功更改會員身分");
-            resp.put("response", data);
-            
-            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
-            jsr.response(resp, response);
-        }
+//    public void ChAdmin(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//            /** 透過JsonReader類別將Request之JSON格式資料解析並取回 */
+//            JsonReader jsr = new JsonReader(request);
+//            JSONObject jso = jsr.getObject();
+//            
+//            /** 取出經解析到JSONObject之Request參數 */
+//            int id = jso.getInt("member_id");
+//            String member_account = jso.getString("member_account");
+//            String hash_pwd = jso.getString("hash_pwd");
+//            String member_name = jso.getString("member_name");
+//            String member_bio = jso.getString("member_bio");
+//            int is_admin = jso.getInt("is_admin");
+//            String member_img_path = jso.getString("member_img_path");
+//
+//            /** 透過傳入之參數，新建一個以這些參數之會員Member物件 */
+//            Member m = new Member(id, member_account, hash_pwd, member_name,member_bio,is_admin, member_img_path);
+//            
+//            /** 透過Member物件的update()方法至資料庫更新該名會員資料，回傳之資料為JSONObject物件 */
+//            JSONObject data = m.changeAdmin();
+//            
+//            /** 新建一個JSONObject用於將回傳之資料進行封裝 */
+//            JSONObject resp = new JSONObject();
+//            resp.put("status", "200");
+//            resp.put("message", "成功更改會員身分");
+//            resp.put("response", data);
+//            
+//            /** 透過JsonReader物件回傳到前端（以JSONObject方式） */
+//            jsr.response(resp, response);
+//        }
     
 }

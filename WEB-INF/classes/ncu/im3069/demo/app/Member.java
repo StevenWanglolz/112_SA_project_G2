@@ -100,9 +100,8 @@ public class Member {
         this.member_img_path = member_img_path;
     }
     
-    public Member(int id) {
-    	this.member_id = id;
-    }
+    
+    
     
     /**
      * 取得會員之編號
@@ -141,9 +140,9 @@ public class Member {
     }
     
     /**
-     * 取得更新資料時間之分鐘數
+     * 取得更新之會員自介
      *
-     * @return the login times 回傳更新資料時間之分鐘數
+     * @return the member_bio 回傳會員自介
      */
     public String getmember_bio() {
         return this.member_bio;
@@ -158,6 +157,11 @@ public class Member {
         return this.is_admin;
     }
     
+    /**
+     * 取得會員頭貼之路徑
+     *
+     * @return path 回傳圖片路徑
+     */
     public String getmember_img_path() {
         return this.member_img_path;
     }
@@ -203,6 +207,25 @@ public class Member {
     	
     }
     
+    /**
+     * 更改該名會員帳號、暱稱、自介
+     *
+     * @return the JSON object 回傳SQL更新之結果與相關封裝之資料
+     */
+    public JSONObject changeInfo() {
+    	
+    	JSONObject data = new JSONObject();
+    	
+    	/** 檢查該名會員是否已經在資料庫 */
+        if(this.member_id != 0) {
+            /** 若有則將其身分更改至資料庫中 */
+  
+            /** 透過MemberHelper物件，更新目前之會員資料置資料庫中 */
+            data = mh.changeInfo(this);
+        }
+        
+        return data;
+    }
     /**
      * 取得該名會員所有資料
      *
