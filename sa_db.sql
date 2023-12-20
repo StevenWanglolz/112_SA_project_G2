@@ -131,20 +131,20 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `mydb`;
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (1, '112_SA_project_G2/filepath/sanote1_1.png', 1, 1, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (2, '112_SA_project_G2/filepath/algorithm2_1.pdf', 2, 1, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (1, 'filepath/sanote1_1.png', 1, 1, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (2, 'filepath/algorithm2_1.pdf', 2, 1, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (3, NULL, 3, 1, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (4, NULL, 6, 2, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (5, '112_SA_project_G2/filepath/accounting2_1.png', 7, 2, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (5, 'filepath/accounting2_1.png', 7, 2, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (6, NULL, 8, 2, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (7, NULL, 9, 2, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (8, NULL, 11, 2, NULL);
 INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (9, NULL, 12, 3, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (10, '112_SA_project_G2/filepath/linear_algebra3_1.pptx', 13, 3, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (11, '112_SA_project_G2/filepath/sanote1_2.png', 1, 1, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (12, '112_SA_project_G2/filepath/sanote1_3.png', 1, 1, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (13, '112_SA_project_G2/filepath/accounting2_2.png', 7, 2, NULL);
-INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (14, '112_SA_project_G2/filepath/accounting2_3.png', 7, 2, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (10, 'filepath/linear_algebra3_1.pptx', 13, 3, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (11, 'filepath/sanote1_2.png', 1, 1, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (12, 'filepath/sanote1_3.png', 1, 1, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (13, 'filepath/accounting2_2.png', 7, 2, NULL);
+INSERT INTO `mydb`.`File` (`file_id`, `file_path`, `post_id`, `member_id`, `post_time`) VALUES (14, 'filepath/accounting2_3.png', 7, 2, NULL);
 
 COMMIT;
 
