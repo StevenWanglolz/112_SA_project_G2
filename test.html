@@ -13,15 +13,38 @@
 </head>
 <body>
 
-    <form action="api/upload.do" method="post" enctype="multipart/form-data">
+    <form id="uploadForm" action="#" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">圖片上傳測試</label>
-            <input  type="file" name = "file" multiple/>
+            <input  type="file" id="file" name = "file" multiple/>
         </div>
-        <input type="submit">
+        <input type="submit" onclick="uploadfile()">
     </form>
 
-
+<script>
+	function uploadfile() {
+		var file = $("#file")[0].files[0] ;
+	
+	var formData = new FormData(document.getElementById('uploadForm'));
+	formData.append("file", file) ;
+	
+	$.ajax({
+	        url: 'api/upload.do', // 请根据实际情况修改 Servlet 的 URL
+	        type: "POST",
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        success: function (response) {
+				console.log(response) ;
+	        },
+	        error: function (error) {
+	            console.error(error);
+	        }
+    	});
+	}
+	
+	
+</script>
     
 </body>
 </html>
