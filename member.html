@@ -86,7 +86,7 @@
               <p class="card-text text-body-secondary ps-1" id="bio"></p>
 
               <!-- Button trigger modal -->
-              <a type="button" class="btn btn-sm btn-outline-dark my-1" href="test.html">
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#img_edit">
                 <i class="bi bi-person-circle"></i> 更改大頭照
               </a>
               <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#info_edit">
@@ -95,6 +95,29 @@
               <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#password_edit">
                 <i class="bi bi-key"></i> 修改密碼
               </a>
+
+              <!-- Img Edit Modal -->
+              <div class="modal fade" id="img_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >修改大頭照</h1>
+                    </div>
+                    <div class="modal-body">
+                      <form class="row g-2" id="upload_form" onsubmit="editImg()" enctype="multipart/form-data">
+                        <div class="mb-3">
+                          <!-- <label for="formFile" class="form-label">選擇檔案</label> -->
+                          <input class="form-control" type="file" id="formFile">
+                        </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認上傳</button>
+                        </div>
+                      </form>
+                    </div> 
+                  </div>
+                </div>
+              </div>
 
               <!-- Info Edit Modal -->
               <div class="modal fade" id="info_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -380,6 +403,29 @@
           document.getElementById("username_edit").value = data[0]['member_name'];
           // document.getElementById("account_edit").value = data[0]['member_account'];
           document.getElementById("bio_edit").textContent = data[0]['member_bio'];
+        }
+
+        function editImg() {
+          event.preventDefault();
+          var member_id = getCookie('memberId');
+          var file = $("#file")[0].files[0];
+          var formData = new FormData(document.getElementById('upload_form'));
+          formData.append("file", file);
+          formData.append("member_id", member_id);
+          
+          $.ajax({
+            url: 'api/upload.do',
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              console.log(response) ;
+            },
+            error: function (error) {
+              console.error(error);
+            }
+          });
         }
 
         function editMemberInfo(){
