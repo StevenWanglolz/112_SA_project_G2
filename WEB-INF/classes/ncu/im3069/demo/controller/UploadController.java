@@ -67,7 +67,7 @@ public class UploadController extends HttpServlet {
             int bytesRead;
             
             while ((bytesRead = inputStream.read(buffer)) != -1) {
-            	Files.copy(filePart.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            	
                 outputStream.write(buffer, 0, bytesRead);
             }
             //System.out.println(item.getName());
