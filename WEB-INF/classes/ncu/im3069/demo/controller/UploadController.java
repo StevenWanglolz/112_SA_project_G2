@@ -32,7 +32,7 @@ public class UploadController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        try {
+        /*try {
             ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
             List<FileItem> multifiles = sf.parseRequest(request);
             System.out.println(request);
@@ -43,7 +43,7 @@ public class UploadController extends HttpServlet {
 
             for(FileItem item:multifiles) {
 
-                item.write(new File("112_SA_project_G2/img/"+item.getName()));
+                item.write(new File("/img/"+item.getName()));
                 System.out.println(item.getName());
             }
             System.out.println("Upload Success!");
@@ -52,7 +52,45 @@ public class UploadController extends HttpServlet {
                 System.out.println("Upload fail!");
             }
 
+        }*/
+    	
+    	try {
+            // 取得檔案部分
+            Part filePart = request.getPart("file");
+            
+            // 取得檔案名稱
+            String fileName = getSubmittedFileName(filePart);
+            //String fileName = getFileName(filePart);
+            System.out.println(fileName);
+
+            // 請指定您想要保存檔案的目標資料夾路徑
+            String relativePath = "img/" ;
+            //String uploadFolder = "/img/";
+            
+            String savePath = getServletContext().getRealPath(relativePath);
+            System.out.println(savePath);
+            filePart.write(savePath + File.separator + fileName);
+
+            // 使用 NIO 保存檔案
+            /* saveFile(filePart.getInputStream(), uploadFolder, fileName);
+            System.out.println(System.getProperty("user.dir"));*/
+            
+            response.getWriter().print("File uploaded successfully");
+        } catch (Exception e) {
+            response.getWriter().print("Failed to upload file");
+            e.printStackTrace();
         }
+
+      }
+    private String getSubmittedFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1);
+            }
+        }
+        return null;
+    }
 
     
 }
