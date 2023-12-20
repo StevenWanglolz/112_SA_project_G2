@@ -107,7 +107,7 @@
                       <form class="row g-2" id="upload_form" onsubmit="editImg()" enctype="multipart/form-data">
                         <div class="mb-3">
                           <!-- <label for="formFile" class="form-label">選擇檔案</label> -->
-                          <input class="form-control" type="file" id="formFile">
+                          <input class="form-control" type="file" id="file">
                         </div>
                         <div class="flex text-end">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -420,12 +420,13 @@
             processData: false,
             contentType: false,
             success: function (response) {
-              console.log(response) ;
+              console.log(response);
             },
-            error: function (error) {
-              console.error(error);
+            error: function () {
+              alert("更改大頭照失敗");
             }
           });
+          setTimeout(() => {  location.reload(); }, 600);
         }
 
         function editMemberInfo(){
