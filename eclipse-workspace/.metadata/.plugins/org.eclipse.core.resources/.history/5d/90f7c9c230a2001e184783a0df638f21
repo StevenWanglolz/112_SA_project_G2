@@ -1,0 +1,61 @@
+package app;
+
+import java.sql;
+import org.json.JSONObject;
+
+	// 搜尋用 Steven 2023/12/23
+	public JSONObject getSearchPost(String searchTerm) {
+	    Post p = null;
+	    JSONArray jsa = new JSONArray();
+	    String executeSql = "";
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DBMgr.getConnection();
+	        String sql = "SELECT RANK() OVER (PARTITION BY f.post_id ORDER BY f.file_id) as page, f.file_path, p.post_id, p.post_title, p.post_type, p.post_description, m.member_id, m.member_name, m.member_account "
+	                + "FROM Post p "
+	                + "LEFT JOIN file f ON p.post_id = f.post_id "
+	                + "LEFT JOIN Member m ON p.member_id = m.member_id "
+	                + "WHERE (LOWER(p.post_title) LIKE LOWER(?) OR LOWER(p.post_description) LIKE LOWER(?)) "
+	                + "AND (LOWER(p.post_title) LIKE LOWER(?) OR LOWER(p.post_description) LIKE LOWER(?)) " // New condition
+	                + "ORDER BY f.post_id;";
+
+	        pres = conn.prepareStatement(sql);
+	        pres.setString(1, "%" + searchTerm + "%");
+	        pres.setString(2, "%" + searchTerm + "%");
+	        pres.setString(3, "%" + searchTerm + "%"); // New parameter
+	        pres.setString(4, "%" + searchTerm + "%"); // New parameter
+	        rs = pres.executeQuery();
+
+	        executeSql = pres.toString();
+	        System.out.println(executeSql);
+
+	        while (rs.next()) {
+	            int page = rs.getInt("page");
+	            String file_path = rs.getString("file_path");
+	            int post_id = rs.getInt("post_id");
+	            String post_title = rs.getString("post_title");
+	            String post_type = rs.getString("post_type");
+	            String post_description = rs.getString("post_description");
+	            int member_id = rs.getInt("member_id");
+	            String member_name = rs.getString("member_name");
+	            String member_account = rs.getString("member_account");
+
+	            p = new Post(page, file_path, post_id, post_title, post_type, post_description, member_id, member_name, member_account);
+	            jsa.put(p.getData());
+	        }
+
+	    } catch (SQLException e) {
+	        System.err.format("SQL State: %s\n%s\n%s", e.getErrorCode(), e.getSQLState(), e.getMessage());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBMgr.close(rs, pres, conn);
+	    }
+
+	    JSONObject response = new JSONObject();
+	    response.put("data", jsa);
+	    System.out.println("Posthelper searchPost() response: " + response);
+
+	    return response;
+	}

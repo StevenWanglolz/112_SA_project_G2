@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<div></div>
+</head>
+<body>  
+
+    
+    <script>
+        // 確認登入狀況
+
+        getAllPost();
+        
+
+
+        function getAllPost() {
+          $.ajax({
+            type: "GET",
+            url: "api/search.do",
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+              // alert("成功連線到伺服器！");
+              // updatePosts(response.response.data);
+              if(response.status == 200){
+                updatePosts(response.response.data);
+              }
+              console.log(response);
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });
+        }
+
+
+
+
+    </script>
+
+
+</body>
+</html>
