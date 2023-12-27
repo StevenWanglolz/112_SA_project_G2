@@ -1,0 +1,115 @@
+package controller;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.JSONObject;
+
+import app.Member;
+import app.MemberHelper;
+import app.Post;
+
+import app.UploadedFile;
+
+import app.PostHelper;
+import tools.JsonReader;
+
+/**
+ * Servlet implementation class PostController
+ */
+@WebServlet("/api/post.do")
+@MultipartConfig
+public class PostController extends HttpServlet {
+	 private static final long serialVersionUID = 1L;
+	       
+	 private static PostHelper ph = PostHelper.getHelper();
+	 
+	    /**
+	     * @see HttpServlet#HttpServlet()
+	     */
+	    public PostController() {
+	        super();
+	        // TODO Auto-generated constructor stub
+	    }
+	    
+
+	 /**
+	  * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	  */
+	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        JsonReader jsr = new JsonReader(request);
+	        JSONObject jso = jsr.getObject();
+
+			String post_title = jso.getString("post_title");
+
+	        if (post_title != null && !post_title.isEmpty()) {
+	            JSONObject query = ph.getSearchPost(post_title);
+
+	            JSONObject resp = new JSONObject();
+	            resp.put("status", "200");
+	            resp.put("message", "Search successful");
+	            resp.put("response", query);
+
+	            jsr.response(resp, response);
+	        } else {
+	            JSONObject resp = new JSONObject();
+	            resp.put("status", "400");
+	            resp.put("message", "Invalid search term");
+
+	            jsr.response(resp, response);
+	        }
+	    }
+
+	 /**
+	  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	  */
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  // TODO Auto-generated method stub
+	  doGet(request, response);
+	 }
+
+	}
+
+//	private String getFileExtension(String fileName) {
+//    return fileName.substring(fileName.lastIndexOf('.') + 1);
+//}
+
+//private boolean isFilePart(Part part) {
+//    // 檢查 Content-Disposition header 是否包含 "filename"
+//    return part.getHeader("content-disposition").contains("filename");
+//}
+    
+//    private void saveFile(InputStream fileContent, String uploadFolder, String fileName) throws IOException {
+//        Path uploadPath = Paths.get(uploadFolder);
+//        Files.createDirectories(uploadPath);
+//
+//        // 使用 NIO 保存檔案
+//        Path filePath = uploadPath.resolve(fileName);
+//        Files.copy(fileContent, filePath, StandardCopyOption.REPLACE_EXISTING);
+//    }
+
+}

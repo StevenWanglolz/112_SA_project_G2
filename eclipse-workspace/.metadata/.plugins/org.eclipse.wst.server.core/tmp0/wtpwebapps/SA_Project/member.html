@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人主頁</title>
+
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+    <link href="statics/icons/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="statics/css/hugo.css" rel="stylesheet">
+
+    <script src="statics/js/bootstrap.min.js"></script>
+    <script src="statics/js/hugo.js"></script>
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+<body>  
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <button class="navbar-toggler border-0 ps-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand ms-1" href="index.html">學生資源分享站</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto ms-2 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-house-door"></i> 首頁
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="member.html">
+                          <i class="bi bi-person-fill"></i> 個人主頁
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-chat"></i> 通知欄
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" id="admin_page" href="test.html" style="display: none;">
+                            <i class="bi bi-database"></i> 連線測試
+                        </a>
+                    </li> -->
+                </ul>
+                <!-- search bar -->
+                <!-- <form role="search">
+                    <div class="input-group">
+                      <span class="input-group-text bg-white text-secondary border-end-0 ms-1 pe-2" id="basic-addon1"><i class="bi bi-search"></i></span>
+                      <input type="search" class="form-control border-start-0 me-1 ps-2" placeholder="搜尋" aria-label="Search" aria-describedby="basic-addon1">
+                    </div>
+                </form> -->
+                <div class="text-center">
+                    <a type="button" id="loginBtn" class="btn btn-primary mx-1 my-2" href="login.html">
+                      <i class="bi bi-box-arrow-in-right"></i> 登入
+                    </a>
+                </div>
+                <div class="text-center">
+                    <a type="button" id="logoutBtn" class="btn btn-outline-danger mx-1 my-2" onclick="logout()" style="display: none;">
+                      <i class="bi bi-box-arrow-right"></i> 登出
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <main>
+  
+    <!-- member info -->
+    <section class="pt-5 container">
+      <h5 class="mb-5">會員資訊</h5>
+      <div class="row align-items-center">
+        <div class="d-flex col-lg-3 justify-content-lg-end justify-content-center">
+          <div class="card border-0" style="width: 140px;">
+            <img src="" id="member_img" class="card-img-top rounded-circle object-fit-cover img-thumbnail" style="width: 140px; height: 140px;" alt="...">
+            <div class="card-body text-center">
+              <h5 class="card-title" id="username"></h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card border-0">
+            <div class="card-body">
+              <h6 class="card-subtitle">帳號</h6>
+              <p class="card-text text-body-secondary ps-1 " id="account"></p>
+              <h6 class="card-subtitle">自介</h6>
+              <p class="card-text text-body-secondary ps-1" id="bio"></p>
+
+              <!-- Button trigger modal -->
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#img_edit">
+                <i class="bi bi-person-circle"></i> 更改大頭照
+              </a>
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#info_edit">
+                <i class="bi bi-pencil-square"></i> 修改個人資訊
+              </a>
+              <a type="button" class="btn btn-sm btn-outline-dark my-1" data-bs-toggle="modal" data-bs-target="#password_edit">
+                <i class="bi bi-key"></i> 修改密碼
+              </a>
+
+              <!-- Img Edit Modal -->
+              <div class="modal fade" id="img_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >修改大頭照</h1>
+                    </div>
+                    <div class="modal-body">
+                      <form class="row g-2" id="upload_img" onsubmit="editImg()" enctype="multipart/form-data">
+                        <div class="mb-3">
+                          <!-- <label for="formFile" class="form-label">選擇檔案</label> -->
+                          <input class="form-control" type="file" id="file_img">
+                        </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認上傳</button>
+                        </div>
+                      </form>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+
+              <!-- Info Edit Modal -->
+              <div class="modal fade" id="info_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5">修改個人資訊</h1>
+                    </div>
+                    <div class="modal-body">
+                      <form class="row g-2" onsubmit="editMemberInfo()">
+                        <div class="form-floating mb-3 col-12">
+                            <input type="text" class="form-control rounded-3" id="username_edit"  placeholder="Username" value="" required>
+                            <label for="floatingInput">使用者名稱</label>
+                        </div>
+                        <!-- <div class="form-floating mb-3 col-md-6">
+                            <input type="text" class="form-control rounded-3" id="account_edit" placeholder="Account" value="" required>
+                            <label for="floatingInput">帳號</label>
+                        </div> -->
+                        <div class="form-floating mb-3 col-12">
+                            <textarea class="form-control rounded-3" id="bio_edit" placeholder="Bio" value="" style="height: 140px"></textarea>
+                            <label for="floatingInput">自介</label>
+                        </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認修改</button>
+                        </div>
+                      </form>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+
+              <!-- Password Edit Modal -->
+              <div class="modal fade" id="password_edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >修改密碼</h1>
+                    </div>
+                    <div class="modal-body">
+                      <form class="row g-2" onsubmit="editPassword()">
+                        <div class="form-floating col-12">
+                          <input type="password" class="form-control rounded-3" id="old_password" placeholder="OldPassword" required>
+                          <label for="floatingInput">現在的密碼</label>
+                        </div>
+                        <div class="col-12 text-center">
+                          <h4><i class="bi bi-arrow-down"></i></h4>
+                        </div>
+                        <div class="form-floating mb-2 col-12">
+                          <input type="password" class="form-control rounded-3" id="new_password1" placeholder="NewPassword" required>
+                          <label for="floatingInput">新密碼</label>
+                        </div>
+                        <div class="form-floating mb-3 col-12">
+                          <input type="password" class="form-control rounded-3" id="new_password2" placeholder="NewPassword" required>
+                          <label for="floatingInput">再次輸入新密碼</label>
+                        </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認修改</button>
+                        </div>
+                      </form>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+
+              <!-- Upload File Modal -->
+              <div class="modal fade" id="file_upload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5" >上傳文件</h1>
+                    </div>
+                    <div class="modal-body">
+                      <form class="row g-2" id="upload_file" onsubmit="uploadFile()" enctype="multipart/form-data">
+                        <div class="mb-3 col-12">
+                          <label for="post_name_new" class="form-label">文件名稱</label>
+                          <input type="text" class="form-control rounded-3" id="post_name_new" value="" required>
+                        </div>
+                        <div class="mb-3 col-12">
+                          <label for="form-check" class="form-label">文件類型</label>
+                          <br>
+                          <div class="form-check-group ms-3">
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="course_note" checked>
+                              <label class="form-check-label" for="inlineRadio1">筆記</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="course_material">
+                              <label class="form-check-label" for="inlineRadio2">教材</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="course_feedback">
+                              <label class="form-check-label" for="inlineRadio3">課程評價</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3 col-12">
+                          <input class="form-control" type="file" id="post_files_new" multiple>
+                        </div>
+                        <div class="mb-3 col-12">
+                          <label for="post_description_new" class="form-label">說明</label>
+                          <textarea class="form-control rounded-3" id="post_description_new" value="" style="height: 140px"></textarea>
+                        </div>
+                        <div class="flex text-end">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" class="btn btn-primary">確認上傳</button>
+                        </div>
+                      </form>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post Info Modal -->
+              <div class="modal fade" id="file_info" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+                  <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                      <h1 class="modal-title fs-5">文件內容</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-3">
+                      <!-- <form id="edit_post_info" enctype="multipart/form-data"> -->
+                        <div class="row mb-3">
+                          <label for="post_name" class="col-sm-2 col-form-label">名稱</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control rounded-3" id="post_name" value="file_name">
+                          </div>
+                        </div>
+                        <div class="row mb-3">
+                          <label for="post_type" class="col-sm-2 col-form-label">類型</label>
+                          <div class="col-sm-10">
+                            <span class="badge rounded-pill text-bg-dark" id="post_type">類別</span>
+                          </div>
+                        </div>
+                        <!-- <div class="row mb-3">
+                          <label for="member_name" class="col-sm-2 col-form-label">作者</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext rounded-3" id="member_name" value="auther" readonly>
+                          </div>
+                        </div> -->
+                        <div class="row mb-3 col-12">
+                          <label for="file_img" class="col-sm-2 col-form-label">檔案</label>
+                          <div id="file_container" class="col-sm-10"></div>
+                        </div>
+                        <div class="row mb-3 col-12">
+                          <label for="post_description" class="col-sm-2 col-form-label">說明</label>
+                          <div class="col-sm-10">
+                            <textarea class="form-control rounded-3" id="post_description" value="" style="height: 140px"></textarea>
+                          </div>
+                        </div>
+                        <div class="flex text-center">
+                          <button id="delete_post_btn" type="button" class="btn btn-danger">刪除檔案</button>
+                          <button id="download_post_btn" type="button" class="btn btn-success"><i class="bi bi-download"></i> 下載檔案</button>
+                          <button id="edit_post_btn" class="btn btn-primary"><i class="bi bi-pencil-square"></i> 確認修改</button>
+                        </div>
+                      <!-- </form> -->
+                    </div>  
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="m-4">
+
+    <!-- member files -->
+    <div class="album pt-4 pb-5">
+      <div class="container" id="post_container">
+        <h5 class="mb-5">上傳資料</h5>
+  
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+
+          <div class="col">
+            <div class="card" id="post">
+              <img class="bd-placeholder-img card-img-top object-fit-cover" width="100%" height="225" src="" alt="文件檔案"></img>
+              <div class="card-body">
+                <h5 class="card-title">標題</h5>
+                <p class="card-text text-truncate">這裡寫文件說明</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="badge rounded-pill text-bg-dark">類別</span>
+                  <small class="text-body-secondary">by 作者</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bottom fixed-end m-5 text-end">
+      <button class="btn btn-lg btn-primary shadow" data-bs-toggle="modal" data-bs-target="#file_upload"><i class="bi bi-file-earmark-arrow-up"></i> 上傳文件</button>
+    </div>
+
+  
+    </main>
+
+
+    <script>
+        // 確認登入狀況
+        checkLoginStatus();
+        getMemberData();
+        getMemberPost();
+
+        function getMemberPost() {
+          var id = getCookie('memberId');
+          var member_id = parseInt(id);
+          var data_object = {"member_id": member_id};
+          $.ajax({
+            type: "GET",
+            url: "api/post.do",
+            data: data_object,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+              // alert("成功連線到伺服器！");
+              if(response.status == 200){
+                updatePosts(response.response.data);
+              }
+              console.log(response);
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });
+        }
+
+        function updatePosts(data){
+          $("#post_container > div").empty();
+          var post_html = '';
+          var post_type = '';
+          var initial_file_path = 'filepath/notebook.pdf';
+          $.each(data, function(index, value) {
+            if(value["page"] == 1){
+              console.log(value["file_path"], index);
+              if(typeof value["file_path"] == 'undefined'){
+                post_html += '<div class="col"><div class="card" id="post" onclick="showPostInfo(' + value["post_id"] + ')" data-bs-toggle="modal" data-bs-target="#file_info"><img class="bd-placeholder-img card-img-top object-fit-cover" width="100%" height="225" src=" '+ initial_file_path +' " alt="文件檔案"></img>';
+              }else {
+                post_html += '<div class="col"><div class="card" id="post" onclick="showPostInfo(' + value["post_id"] + ')" data-bs-toggle="modal" data-bs-target="#file_info"><img class="bd-placeholder-img card-img-top object-fit-cover" width="100%" height="225" src=" '+ value["file_path"] +' " alt="文件檔案"></img>';
+              }
+              post_html += '<div class="card-body"><h5 class="card-title">' + value["post_title"] + '</h5>';
+              post_html += '<p class="card-text text-truncate">' + value["post_description"] + '</p>';
+              switch(value["post_type"]){
+                case 'course_note':
+                  post_type = '筆記';
+                  post_html += '<div class="d-flex justify-content-between align-items-center"><span class="badge rounded-pill text-bg-primary">' + post_type + '</span>';
+                  break;
+                case 'course_material':
+                  post_type = '教材';
+                  post_html += '<div class="d-flex justify-content-between align-items-center"><span class="badge rounded-pill text-bg-warning">' + post_type + '</span>';
+                  break;
+                case 'course_feedback':
+                  post_type = '課程評價';
+                  post_html += '<div class="d-flex justify-content-between align-items-center"><span class="badge rounded-pill text-bg-dark">' + post_type + '</span>';
+                  break;
+                default:
+                  console.log('無法分辨檔案類型');
+              }
+              // post_html += '<div class="d-flex justify-content-between align-items-center"><span class="badge rounded-pill text-bg-dark">' + post_type + '</span>';
+              post_html += '<small class="text-body-secondary">by ' + value["member_name"] + '</small></div></div></div></div>';
+            }else{
+              console.log('page not 1');
+            }
+                
+          })
+
+          $("#post_container > div").append(post_html);
+        }
+
+        function showPostInfo(id){
+          var post_id = id;
+          console.log('post_id: '+post_id);
+          var data_object = {"post_id": post_id};
+          $.ajax({
+            type: "GET",
+            url: "api/post.do",
+            data: data_object,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+              // alert("成功連線到伺服器！");
+              if(response.status == 200){
+                updatePostInfo(response.response.data);
+              }
+              console.log(response);
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });
+        }
+
+        function updatePostInfo(data) {
+          console.log(data[0]["post_title"]);
+          document.getElementById("post_name").value = data[0]["post_title"];
+          var post_type = '';
+          switch(data[0]["post_type"]){
+            case 'course_note':
+              post_type = '筆記';
+              break;
+            case 'course_material':
+              post_type = '教材';
+              break;
+            case 'course_feedback':
+              post_type = '課程評價';
+              break;
+            default:
+              console.log('無法分辨檔案類型');
+          }
+          $("#file_container").empty();
+          var file_html = '';
+          if(typeof data[0]["file_path"] == "undefined"){
+            console.log('無檔案');
+            file_html += '<div class="col-sm-10"><input type="text" class="form-control-plaintext rounded-3" value="無" readonly></div>';
+            document.getElementById("download_post_btn").className = "d-none";
+          }else{
+            $("#file_container").empty();
+            $.each(data, function(index, value) {
+              file_html += '<img class="object-fit-cover img-thumbnail mb-2" width="100%" src="'+ value["file_path"] + '" alt="文件檔案"></img>'
+            })
+            document.getElementById("download_post_btn").className = "btn btn-success";
+            $("#download_post_btn").off("click");
+            $("#download_post_btn").click(function() {
+              download(data, data[0]["post_id"]); // Pass any required parameters
+            });
+          }
+          $("#delete_post_btn").off("click");
+          $("#delete_post_btn").click(function() {
+            deletePost(data[0]["post_id"]);
+          });
+          $("#edit_post_btn").off("click");
+          $("#edit_post_btn").click(function() {
+            editPost(data[0]["post_id"]);
+          });
+
+          $("#file_container").append(file_html);
+
+          // console.log(post_type);
+          $("#post_type").text(post_type);
+          // document.getElementById("member_name").value = data[0]["member_name"];
+          document.getElementById("post_description").textContent = data[0]['post_description'];
+        }
+
+        function deletePost(id){
+          var post_id = id;
+          var request = {"post_id": post_id};
+          var data_string = JSON.stringify(request);
+          var check = window.confirm("確認刪除檔案？");
+          if(check == true){
+            $.ajax({
+              type: "DELETE",
+              url: "api/post.do",
+              crossDomain: true,
+              data: data_string,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                if(response.status == 200){
+                  alert("成功刪除檔案");
+                }
+                console.log(response);
+              },
+              error: function () {
+                alert("檔案刪除失敗");
+              }
+            });
+            setTimeout(() => {  location.reload(); }, 600);
+          }else{
+            console.log("You pressed Cancel!");
+          }
+        }
+      
+        function editPost(id) {
+          var post_id = id;
+          var post_title = document.getElementById("post_name").value;
+          var post_description = $("#post_description").val();
+          console.log("id:"+post_id);
+          console.log("title:"+post_title);
+          console.log("description:"+post_description);
+
+          var request = {
+            'post_id': post_id,
+            'post_title': post_title,
+            'post_description': post_description
+          };
+
+          var data_string = JSON.stringify(request);
+
+          $.ajax({
+              type: "PUT",
+              url: "api/post.do",
+              crossDomain: true,
+              data: data_string,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                if(response.status == 200){
+                  alert("成功更改檔案內容");
+                }
+                console.log(response);
+              },
+              error: function () {
+                alert("檔案內容更改失敗");
+              }
+          });
+          setTimeout(() => {  location.reload(); }, 600);
+        }
+
+        function download(data, id){
+          console.log('file_id:'+id);
+          var fileUrls = [];
+          $.each(data, function(index, value) {
+            fileUrls.push(value["file_path"]);
+            console.log(value["file_path"]);
+          })
+          var new_file_name = data[0]["post_title"];
+          // Create a temporary link element
+          var link = document.createElement('a');
+
+          // Function to initiate download for a specific index
+          function downloadAtIndex(index) {
+            if (index < fileUrls.length) {
+              var fileUrl = fileUrls[index];
+              var fileName = fileUrl.split('/').pop();
+              var fileExtension = fileName.split('.').pop().toLowerCase();
+              
+              // Set the href attribute to the file URL
+              link.href = fileUrl;
+              link.download = new_file_name + '_' +index + '.' + fileExtension;
+              document.body.appendChild(link);
+              link.click();
+
+              // Delay removal of the link to allow the download to start
+              setTimeout(function () {
+                // Remove the link from the DOM
+                document.body.removeChild(link);
+
+                // Initiate the next download after a short delay
+                setTimeout(function () {
+                  downloadAtIndex(index + 1);
+                }, 100);
+              }, 200);
+            }
+          }
+          // Start the download sequence
+          downloadAtIndex(0);
+        }
+
+        function checkLoginStatus() {
+            const memberLoggedIn = getCookie('memberLoggedIn');
+            const adminLoggedIn = getCookie('adminLoggedIn');
+
+            if (memberLoggedIn === 'true' || adminLoggedIn === 'true') {
+                // 用戶已登入
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'block';
+                // if(adminLoggedIn === 'true'){
+                //     document.getElementById('admin_page').style.display = 'block';
+                // }
+            } else {
+                // 用戶未登入
+                document.getElementById('loginBtn').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'none';
+                alert('未登入會員，將跳轉登入畫面');
+                window.location.href = "/SA_Project/login.html";
+            }
+        }
+
+        function getMemberData() {
+          var id = getCookie('memberId');
+          var member_id = parseInt(id);
+          var data_object = {"member_id": member_id};
+          // console.log(typeof member_id);
+          //var data_string = JSON.stringify(data_object);
+
+          $.ajax({
+            type: "GET",
+            url: "api/member.do",
+            data: data_object,
+            crossDomain: true,
+            cache: false,
+            dataType: 'json',
+            timeout: 5000,
+            success: function (response) {
+              // alert("成功連線到伺服器！");
+              if(response.status == 200){
+                updateInfo(response.response.data);
+              }
+              console.log(response);
+            },
+            error: function () {
+              alert("無法連線到伺服器！");
+            }
+          });
+        }
+
+        function updateInfo(data) {
+          // document.getElementById("member_img").src = data[0]['member_img_path'];
+          if(typeof data[0]['member_img_path'] == "undefined"){
+            document.getElementById("member_img").src = "img/initial.png";
+          }else{
+            document.getElementById("member_img").src = data[0]['member_img_path'];
+          }
+          console.log(data[0]['member_img_path']);
+          document.getElementById("username").textContent = data[0]['member_name'];
+          document.getElementById("account").textContent = data[0]['member_account'];
+          document.getElementById("bio").textContent = data[0]['member_bio'];
+          document.getElementById("username_edit").value = data[0]['member_name'];
+          // document.getElementById("account_edit").value = data[0]['member_account'];
+          document.getElementById("bio_edit").textContent = data[0]['member_bio'];
+        }
+
+        function uploadFile() {
+          event.preventDefault();
+          var member_id = getCookie("memberId");
+          var post_name = document.getElementById("post_name_new").value;
+          var post_type = document.querySelector('input[name="inlineRadioOptions"]:checked').value;
+          var post_files = document.getElementById("post_files_new");
+          var post_description = $("#post_description_new").val();
+
+          console.log(post_name);
+          console.log(post_type);
+          selectedFiles = post_files.files;
+          for (var i = 0; i < selectedFiles.length; i++) {
+            console.log('File ' + (i + 1) + ':', selectedFiles[i].name);
+            console.log('Type:', selectedFiles[i].type);
+            console.log('Size:', selectedFiles[i].size, 'bytes');
+          }
+          console.log(post_description);
+
+          var formData = new FormData(document.getElementById('upload_file'));
+          formData.append("member_id", member_id);
+          formData.append("post_name", post_name);
+          formData.append("post_type", post_type);
+          // formData.append("post_files", post_files);
+          for (var i = 0; i < post_files.files.length; i++) {
+    		formData.append("post_files", post_files.files[i]);
+		  }
+          formData.append("post_description", post_description);
+
+          $.ajax({
+            url: 'api/post.do',
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              alert("成功上傳檔案");
+              console.log(response);
+            },
+            error: function () {
+              alert("上傳檔案失敗");
+            }
+          });
+          setTimeout(() => {  location.reload(); }, 600);
+
+        }
+
+        function editImg() {
+          event.preventDefault();
+          var member_id = getCookie('memberId');
+          var file = $("#file_img")[0].files[0];
+          var formData = new FormData(document.getElementById('upload_img'));
+          formData.append("file", file);
+          formData.append("member_id", member_id);
+          
+          $.ajax({
+            url: 'api/upload.do',
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              alert("成功更改大頭照");
+              console.log(response);
+            },
+            error: function () {
+              alert("更改大頭照失敗");
+            }
+          });
+          setTimeout(() => {  location.reload(); }, 600);
+        }
+
+        function editMemberInfo(){
+          event.preventDefault();
+          var member_id = getCookie('memberId');
+          var username = document.getElementById('username_edit').value;
+          // var account = document.getElementById('account_edit').value;
+          var bio = $("#bio_edit").val(); 
+          // console.log(bio);
+
+          var request = {
+            'action':"chInfo",
+            'member_id': member_id,
+            'member_name': username,
+            // 'member_account': account,
+            'member_bio': bio
+          };
+
+          var data_string = JSON.stringify(request);
+
+          $.ajax({
+              type: "PUT",
+              url: "api/member.do",
+              crossDomain: true,
+              data: data_string,
+              cache: false,
+              dataType: 'json',
+              timeout: 5000,
+              success: function (response) {
+                if(response.status == 200){
+                  alert("成功更改會員資訊");
+                }
+                console.log(response);
+              },
+              error: function () {
+                alert("會員資訊更改失敗");
+              }
+          });
+          setTimeout(() => {  location.reload(); }, 600);
+        }
+
+        function editPassword() {
+          event.preventDefault();
+          var member_id = getCookie('memberId');
+          var old_password = document.getElementById('old_password').value;
+          var new_password1 = document.getElementById('new_password1').value;
+          var new_password2 = document.getElementById('new_password2').value;
+
+          if(new_password2 != new_password1){
+            alert('密碼輸入不一致');
+          }else if(old_password == new_password1){
+            alert('新密碼不能跟現有的一樣！');
+          }else{
+            var request = {
+              'action':"chPassword",
+              'member_id': member_id,
+              'old_pwd': old_password,
+              'hash_pwd': new_password1
+            };
+            var data_string = JSON.stringify(request);
+            $.ajax({
+                type: "PUT",
+                url: "api/member.do",
+                crossDomain: true,
+                data: data_string,
+                cache: false,
+                dataType: 'json',
+                timeout: 5000,
+                success: function (response) {
+                  if(response.status == 200){
+                    alert("成功更改密碼");
+                  }else if(response.status == 400){
+                    alert('密碼錯誤，請重新輸入');
+                  }
+                  console.log(response);
+                },
+                error: function () {
+                  alert("密碼更改失敗");
+                }
+            });
+          }
+          setTimeout(() => {  location.reload(); }, 600);
+        }
+
+    </script>
+
+</body>
+</html>
