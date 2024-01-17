@@ -1,5 +1,5 @@
 # KnowledgeNCU
-## This is a project we made for or course "System analysis and implementaion.
+## This is a project we made for or course "System Analysis and Implementaion"
 
 1. Move the eclipse-workspace folder to your desktop
 
